@@ -8,7 +8,7 @@ CC=clang++
 ifeq ($(OS),Windows_NT)
 	rm_C = del bin\* obj\*
 else
-	FOLDERS_COMMAND = mkdir -p obj bin include lib
+	FOLDERS_COMMAND = mkdir -p obj bin include src
 	LINKFLAGS = -fuse-ld=mold
 	rm_C = rm -rf $(BINARY) $(OBJECTS) $(DEPFILES) ./bin/*
 endif
