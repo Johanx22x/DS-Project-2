@@ -24,6 +24,7 @@ OBJECTS=$(patsubst ./src/%.cpp, ./obj/%.o, $(CFILES))
 DEPFILES=$(patsubst ./src/%.cpp, ./obj/%.d, $(CFILES))
 
 all: $(BINARY)
+	@make -C src/commands
 
 run: $(BINARY)
 	$(BINARY)

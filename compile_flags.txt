@@ -2,8 +2,5 @@
 -Wpedantic
 -Wall
 -Wextra
--Wpedantic
 -Wformat
--MP
--MD
 -std=c++17
