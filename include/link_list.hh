@@ -21,7 +21,7 @@ public:
 
     void remove(T item);
 
-    void find(T item);
+    void find(int id);
 
     void print();
 };
