@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <graph.hh>
 #include <iostream>
-#include <link_list.hh>
+#include <linked_list.hh>
 
 int getInt() {
 
@@ -23,4 +23,10 @@ int eputs(std::string __text) {
   return fputs(buf, stderr);
 }
 
-void dumpGraph(LinkedList<Node*> *nodes);
+void dumpGraph(FILE *fp, LinkedList<Node *> *nodes) { 
+  Node *tmp = nodes;
+  while (tmp != NULL) {
+  }
+
+  fflush(fp); 
+}
