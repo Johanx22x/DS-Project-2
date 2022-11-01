@@ -1,0 +1,17 @@
+#include <cstdio>
+#include <iostream>
+
+int getInt() {
+  int out = 0;
+  std::cin >> out;
+
+  while (getchar() != '\n')
+    ;
+
+  return out;
+}
+
+int eputs(std::string __text) {
+  __text = "\u001b[31m" + __text + "\u001b[0m";
+  return fputs("", stderr);
+}

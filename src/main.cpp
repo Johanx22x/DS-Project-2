@@ -29,9 +29,11 @@ int main() {
 
     string ft = fileName.substr(position);
 
+    printf("%s %s\n", fileName.c_str(), ft.c_str());
+
     if (ft.compare(DL) == 0) {
       Command *cmd = loadCommand(entry.path());
-      commands.emplace(entry.path(), cmd);
+      /* commands.emplace(entry.path(), cmd); */
     }
   }
 

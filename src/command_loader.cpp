@@ -14,11 +14,9 @@
 using std::string;
 
 Command *loadCommand(string name) {
-  void *symb = dlopen(name.c_str(), RTLD_LAZY);
+  void *libcmd = dlopen(name.c_str(), RTLD_NOW);
 
-  command *cmd = (command *)dlsym(symb, "command");
-
-  dlclose(symb);
+  command *cmd = (command *)dlsym(libcmd, "command");
 
   return new Command(name, cmd);
 }
