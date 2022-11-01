@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROGRAM_HH
+#define PROGRAM_HH
 
 class Program { 
 public:
@@ -6,3 +7,5 @@ public:
     ~Program();
     void run();
 };
+
+#endif
