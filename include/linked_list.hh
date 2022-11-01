@@ -1,27 +1,26 @@
-#ifndef LINK_LIST_HH
-#define LINK_LIST_HH
+#ifndef LINKED_LIST_HH
+#define LINKED_LIST_HH
 
 #include <iostream>
 #include <string>
 
 template <class T>
-class LinkList {
+class LinkedList {
     T *list = nullptr;
-    int size = 0;
     T head = nullptr;
     T tail = nullptr;
-
 public:
+    int size = 0;
 
-    LinkList() = default;
+    LinkedList() = default;
 
-    LinkList(T *list, int size) : list(list), size(size) {}
+    LinkedList(T *list, int size) : list(list), size(size) {}
 
     void add(T item);
 
     void remove(T item);
 
-    void find(int id);
+    T* find(int id);
 
     void print();
 };

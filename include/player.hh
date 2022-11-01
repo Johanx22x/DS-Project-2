@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <string>
-#include <graph.hh>
 
 enum PlayerMovements {
     THROUGH_ALL,
@@ -14,8 +13,8 @@ class Player {
 public:
     int id;
     std::string name;
-    Node *from = nullptr;
-    Node *to = nullptr;
+    class Node *from = nullptr;
+    class Node *to = nullptr;
     PlayerMovements mode;
     Player *friends = nullptr;
     Player *next = nullptr;
