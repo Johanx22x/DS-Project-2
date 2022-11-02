@@ -33,7 +33,7 @@ public:
     /* std::queue<int> *queue = new std::queue<int>; */
     Arc *next = nullptr;
 
-    Arc(int time, Node *to);
+    Arc(int time, Node *to) : time(time), to(to) {}
 
     void toString();
 };
