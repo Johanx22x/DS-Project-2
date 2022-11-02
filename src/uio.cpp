@@ -3,6 +3,65 @@
 #include <iostream>
 #include <linked_list.hh>
 
+int eputs(std::string);
+
+#if defined(_WIN32)
+#include <Windows.h>
+
+void compileGraph(const *char name) {
+  STARTUPINFO si = {0};
+  PROCESS_INFORMATION pi;
+  si.cb = sizeof(si);
+  if (!CreateProcess(TEXT("dot.exe"), name, NULL, NULL, FALSE, 0, 0, 0, &si,
+                     &pi)) {
+    eputs("error spawning dot process\n");
+    _Exit(1);
+  }
+
+  CloseHandle(pi.hThread);
+  CloseHandle(pi.hProcess);
+}
+
+#else
+
+#include <errno.h>
+#include <stdlib.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+
+void compileGraph(char *const name) {
+  pid_t pid;
+  int status;
+  pid_t ret;
+
+  char *const args[6] = {name, "-Tpng", "-o", "out.png", NULL};
+  char **env;
+  extern char **environ;
+
+  pid = fork();
+  if (pid == -1) {
+    eputs("error forking main process\n");
+    exit(-1);
+  } else if (pid != 0) {
+    while ((ret = waitpid(pid, &status, 0)) == -1) {
+      if (errno != EINTR) {
+        break;
+      }
+    }
+    if ((ret == 0) || !(WIFEXITED(status) && !WEXITSTATUS(status))) {
+      eputs("unexpected child status\n");
+      exit(-2);
+    }
+  } else {
+    if (execve("dot", args, env) == -1) {
+      eputs("unexpected return status\n");
+      exit(-3);
+    }
+  }
+}
+#endif
+
 int getInt() {
 
   int out = 0;

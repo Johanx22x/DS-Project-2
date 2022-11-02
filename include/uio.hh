@@ -12,5 +12,8 @@ int getInt();
 int eputs(std::string);
 
 // TODO: add docs
-int dumpGraph(FILE*, LinkedList<Node> *);
+int dumpGraph(FILE *, LinkedList<Node> *);
+
+// TODO: add docs
+void compileGraph(char *const);
 #endif // UIO_HH

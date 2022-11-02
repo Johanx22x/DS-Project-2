@@ -1,17 +1,20 @@
 #ifndef PROGRAM_HH
 #define PROGRAM_HH
 
-#include <linked_list.hh>
+#include <command.hh>
 #include <graph.hh>
+#include <linked_list.hh>
+#include <map>
 
-class Program { 
+class Program {
 public:
-    LinkedList<Node> *nodes = nullptr;
-    LinkedList<Arc> *arcs = nullptr;
+  LinkedList<Node> *nodes = nullptr;
+  LinkedList<Arc> *arcs = nullptr;
+  std::map<std::string, Command *> *commands = nullptr;
 
-    Program();
-    ~Program();
-    void run();
+  Program();
+  ~Program();
+  void run();
 };
 
 #endif
