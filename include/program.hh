@@ -1,16 +1,16 @@
 #ifndef PROGRAM_HH
 #define PROGRAM_HH
 
-#include <command.hh>
-#include <graph.hh>
-#include <linked_list.hh>
+#include <person.hh>
+#include <uio.hh>
 #include <map>
 
 class Program {
 public:
   LinkedList<Node> *nodes = nullptr;
   LinkedList<Arc> *arcs = nullptr;
-  std::map<std::string, Command *> *commands = nullptr;
+  LinkedList<Person> *people = nullptr;
+  std::map<std::string, class Command *> *commands = nullptr;
 
   Program();
   ~Program();

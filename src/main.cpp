@@ -1,5 +1,4 @@
 #include <command_loader.hh>
-#include <context.hh>
 #include <cstdio>
 #include <filesystem>
 #include <graph.hh>
@@ -7,7 +6,7 @@
 #include <linked_list.hh>
 #include <map>
 #include <uio.hh>
-
+#include <program.hh>
 #include <string>
 
 #if defined(_WIN32)
@@ -41,7 +40,7 @@ int main() {
   /* } */
 
   /* dumpGraph(NULL, NULL); */
-  compileGraph("pinga.dot");
+  /* compileGraph("pinga.dot"); */
 
   return 0;
 }

@@ -1,10 +1,9 @@
 #ifndef COMMAND_HH
 #define COMMAND_HH
 
-#include <context.hh>
 #include <string>
 
-typedef void(command)(Context *);
+typedef void(command)(class Program *);
 
 class Command {
   std::string name;

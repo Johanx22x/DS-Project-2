@@ -3,6 +3,8 @@
 #include <string>
 #include <person.hh>
 
+int Person::next_id = 0;
+
 std::string Person::toString() {
     std::string result = "Person (" + std::to_string(id) + "): " + name;
     return result;

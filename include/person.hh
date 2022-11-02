@@ -6,15 +6,16 @@
 #include <proxy.hh>
 
 enum MovementType {
-    RANDOM,
+    RANDOM = 1,
     ADJACENT,
     THROUGH_ALL,
     DIRECT
 };
 
 class Person {
+    static int next_id;
 public:
-    int id;
+    int id = next_id++;
     std::string name;
     MovementType mode;
     Proxy<Person> *friends = nullptr;
@@ -25,8 +26,8 @@ public:
     class Node *from = nullptr;
     class Node *to = nullptr;
 
-    Person(int id, std::string name, Node from, Node to, MovementType mode);
-    Person(int id, std::string name, MovementType mode);
+    Person(std::string name, Node from, Node to, MovementType mode);
+    Person(std::string name, MovementType mode);
 
     bool addFriend(Person *person);
 

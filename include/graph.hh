@@ -9,8 +9,9 @@
 #include <proxy.hh>
 
 class Node {
+    static int next_id;
 public:
-    int id;
+    int id = next_id++;
     std::string name;
     Node *next = nullptr;
     Proxy<Person> *people = nullptr;
@@ -22,8 +23,9 @@ public:
 };
 
 class Arc {
+    static int next_id;
 public:
-    int id;
+    int id = next_id++;
     int time;
     Node *to;
     /* std::queue<NPC> *NPCQueue = new std::queue<NPC>; */

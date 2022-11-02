@@ -67,8 +67,7 @@ int getInt() {
   int out = 0;
   std::cin >> out;
 
-  while (getchar() != '\n')
-    ;
+  while (getchar() != '\n');
 
   return out;
 }

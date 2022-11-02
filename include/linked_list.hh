@@ -40,8 +40,13 @@ template <class T> void LinkedList<T>::add(T *item) {
 }
 
 template <class T> void LinkedList<T>::remove(T *item) {
+  if (item == nullptr) {
+    return;
+  }
+
   if (head == item) {
     head = head->next;
+    size--;
     return;
   }
 
@@ -50,6 +55,7 @@ template <class T> void LinkedList<T>::remove(T *item) {
   while (curr != nullptr) {
     if (curr == item) {
       prev = curr->next;
+      size--;
       return;
     }
 
