@@ -13,10 +13,10 @@ class Node {
 public:
     int id;
     std::string name;
-    LinkedList<Proxy<class Arc>> *arcs = nullptr;
-    NPC *NPCList = nullptr;
-    Player *PlayerList = nullptr;
     Node *next = nullptr;
+    Proxy<NPC> *npc = nullptr;
+    Proxy<Player> *player = nullptr;
+    LinkedList<Proxy<class Arc>> *arcs = nullptr;
 
     Node(std::string name) : name(name) {}
 
@@ -28,9 +28,9 @@ public:
     int id;
     int time;
     Node *to;
-    std::queue<NPC> *NPCQueue = new std::queue<NPC>;
-    std::queue<Player> *PlayerQueue = new std::queue<Player>;
-    std::queue<int> *queue = new std::queue<int>;
+    /* std::queue<NPC> *NPCQueue = new std::queue<NPC>; */
+    /* std::queue<Player> *PlayerQueue = new std::queue<Player>; */
+    /* std::queue<int> *queue = new std::queue<int>; */
     Arc *next = nullptr;
 
     Arc(int time, Node *to);
