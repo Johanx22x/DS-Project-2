@@ -54,7 +54,7 @@ int main() {
   l->add(niggerdog);
   l->add(alphacentauri);
 
-  FILE *lmao = fopen("pinga.dot", "w");
+  FILE *lmao = fopen("graph.dot", "w");
   int written = dumpGraph(lmao, l);
   printf("Written bytes: %d\n", written);
   return 0;

@@ -12,8 +12,9 @@ enum PlayerMovements {
 class Player {
 public:
     int id;
-    int steps = 0;
     std::string name;
+    int steps = 0;
+    class Arc *currentArc = nullptr;
     class Node *from = nullptr;
     class Node *to = nullptr;
     PlayerMovements mode;
@@ -22,7 +23,9 @@ public:
 
     Player(int id, std::string name, Node from, Node to, PlayerMovements mode);
 
-    void toString();
+    void addFriend(Player *player);
+
+    std::string toString();
 };
 
 #endif

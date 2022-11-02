@@ -20,7 +20,7 @@ public:
 
     NPC(int id, std::string name, NPCMovements mode);
 
-    void toString();
+    std::string toString();
 };
 
 #endif
