@@ -8,6 +8,17 @@ public:
     Proxy<T> *next = nullptr;
 
     Proxy(T *link) : link(link) {}
+
+    void add(T *link);
 };
+
+template <class T>
+void Proxy<T>::add(T *newLink) {
+    if (next == nullptr) {
+        next = new Proxy<T>(newLink);
+    } else {
+        next->add(newLink);
+    }
+}
 
 #endif
