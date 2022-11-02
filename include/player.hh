@@ -12,6 +12,7 @@ enum PlayerMovements {
 class Player {
 public:
     int id;
+    int steps = 0;
     std::string name;
     class Node *from = nullptr;
     class Node *to = nullptr;

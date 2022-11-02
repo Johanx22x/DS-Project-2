@@ -13,6 +13,7 @@ class NPC {
 public:
     int id;
     std::string name;
+    int steps = 0;
     NPCMovements mode;
     NPC *friends = nullptr;
     NPC *next = nullptr;
