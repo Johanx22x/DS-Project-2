@@ -3,8 +3,7 @@
 
 #include <iostream>
 #include <string>
-#include <npc.hh>
-#include <player.hh>
+#include <person.hh>
 #include <queue>
 #include <linked_list.hh>
 #include <proxy.hh>
@@ -14,8 +13,7 @@ public:
     int id;
     std::string name;
     Node *next = nullptr;
-    Proxy<NPC> *npc = nullptr;
-    Proxy<Player> *player = nullptr;
+    Proxy<Person> *people = nullptr;
     LinkedList<Proxy<class Arc>> *arcs = new LinkedList<Proxy<class Arc>>();
 
     Node(std::string name) : name(name) {}
