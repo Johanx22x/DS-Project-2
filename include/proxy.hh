@@ -5,7 +5,7 @@ template <class T>
 class Proxy {
 public:
     T *link = nullptr;
-    T *next = nullptr;
+    Proxy<T> *next = nullptr;
 
     Proxy(T *link) : link(link) {}
 };

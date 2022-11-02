@@ -23,10 +23,37 @@ int eputs(std::string __text) {
   return fputs(buf, stderr);
 }
 
-void dumpGraph(FILE *fp, LinkedList<Node *> *nodes) { 
-  Node *tmp = nodes;
-  while (tmp != NULL) {
+int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
+  if (nodes == nullptr)
+    return 0;
+
+  Node *tmp = nodes->head;
+
+  int written = 0;
+
+  written += fputs("graph A {\n", fp);
+
+  while (tmp != nullptr) {
+
+    if (tmp->arcs == nullptr) {
+      tmp = tmp->next;
+      continue;
+    }
+
+    Proxy<Arc> *arcs = tmp->arcs->head;
+    while (arcs != nullptr) {
+      written +=
+          fprintf(fp, "\t\"%s\" -- \"%s\" [label=%d]\n", tmp->name.c_str(),
+                  arcs->link->to->name.c_str(), arcs->link->time);
+      arcs = arcs->next;
+    }
+
+    tmp = tmp->next;
   }
 
-  fflush(fp); 
+  written += fputs("}", fp);
+
+  fflush(fp);
+
+  return written;
 }

@@ -4,25 +4,86 @@
 #include <iostream>
 #include <string>
 
-template <class T>
-class LinkedList {
-    T *list = nullptr;
-    T head = nullptr;
-    T tail = nullptr;
+template <typename T> class LinkedList {
+
 public:
-    int size = 0;
+  T *head = nullptr;
+  T *tail = nullptr;
 
-    LinkedList() = default;
+  int size = 0;
 
-    LinkedList(T *list, int size) : list(list), size(size) {}
+  LinkedList() = default;
 
-    void add(T item);
+  LinkedList(T *list, int size) : head(list), size(size) {}
 
-    void remove(T item);
+  void add(T *item);
 
-    T* find(int id);
+  void remove(T *item);
 
-    void print();
+  T *find(int id);
+
+  void print();
 };
+
+#include <cstdio>
+
+template <class T> void LinkedList<T>::add(T *item) {
+  if (head == nullptr) {
+    head = item;
+    tail = item;
+    size++;
+
+    return;
+  }
+
+  tail->next = item;
+  tail = item;
+  size++;
+  return;
+}
+
+template <class T> void LinkedList<T>::remove(T *item) {
+  if (head == item) {
+    head = head->next;
+    return;
+  }
+
+  T *curr = head->next;
+  T *prev = head;
+  while (curr != nullptr) {
+    if (curr == item) {
+      prev = curr->next;
+      return;
+    }
+
+    prev = curr;
+    curr = curr->next;
+  }
+}
+
+template <class T> T *LinkedList<T>::find(int id) {
+  if (head->id == id) {
+    return head;
+  }
+
+  T *curr = head->next;
+  while (curr != nullptr) {
+    if (curr->id == id) {
+      return curr;
+    }
+    curr = curr->next;
+  }
+
+  return nullptr;
+}
+
+template <class T> void LinkedList<T>::print() {
+  T *curr = head;
+
+  while (curr != nullptr) {
+    std::cout << curr << "\n";
+    curr = curr->next;
+  }
+}
 
 #endif
