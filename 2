@@ -29,14 +29,14 @@ public:
 
 template <class T> void LinkedList<T>::add(T *item) {
   if (head == nullptr) {
-    head = item;
-    tail = item;
+    this->head = item;
+    this->tail = item;
   } else {
-    tail->next = item;
-    tail = item;
+    this->tail->next = item;
+    this->tail = item;
   }
 
-  size++;
+  this->size++;
 }
 
 template <class T> void LinkedList<T>::remove(T *item) {

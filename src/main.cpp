@@ -47,21 +47,15 @@ int main() {
   Arc *nd = new Arc(5, niggerdog);
 
   arcs->add(nd);
+
   Node *alphacentauri = new Node("Alpha centauri");
   alphacentauri->arcs->add(new Proxy<Arc>(nd));
-  Node *cumdog = new Node("Cum dog");
-  Node *campanita = new Node("Campanita");
-  Node *pingalarga =
-      new Node("La saguata de matey que me dejó el brazo hecho picha");
 
   l->add(niggerdog);
   l->add(alphacentauri);
-  l->add(cumdog);
-  l->add(campanita);
-  l->add(pingalarga);
 
   FILE *lmao = fopen("pinga.dot", "w");
   int written = dumpGraph(lmao, l);
-  printf("%d\n", written);
+  printf("Written bytes: %d\n", written);
   return 0;
 }

@@ -16,7 +16,7 @@ public:
     Node *next = nullptr;
     Proxy<NPC> *npc = nullptr;
     Proxy<Player> *player = nullptr;
-    LinkedList<Proxy<class Arc>> *arcs = nullptr;
+    LinkedList<Proxy<class Arc>> *arcs = new LinkedList<Proxy<class Arc>>();
 
     Node(std::string name) : name(name) {}
 
