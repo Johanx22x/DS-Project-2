@@ -28,7 +28,7 @@ public:
     Person(int id, std::string name, Node from, Node to, MovementType mode);
     Person(int id, std::string name, MovementType mode);
 
-    void addFriend(Person *person);
+    bool addFriend(Person *person);
 
     std::string toString();
 };

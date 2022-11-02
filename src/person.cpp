@@ -8,10 +8,22 @@ std::string Person::toString() {
     return result;
 }
 
-void Person::addFriend(Person *newFriend) {
-    if (friends == nullptr) {
-        friends = new Proxy<Person>(newFriend);
-    } else {
-        friends->add(newFriend);
+bool Person::addFriend(Person *person) {
+    // Check if the new friend is already in the list 
+    Proxy<Person> *curr = friends;
+    while (curr != NULL) {
+        if (curr->link == person) {
+            return false;
+        }
+        curr = curr->next;
     }
+
+    // Add the new friend to the list
+    if (friends == nullptr) {
+        friends = new Proxy<Person>(person);
+    } else {
+        friends->add(person);
+    }
+
+    return true;
 }
