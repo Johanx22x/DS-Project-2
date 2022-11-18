@@ -67,7 +67,8 @@ int getInt() {
   int out = 0;
   std::cin >> out;
 
-  while (getchar() != '\n');
+  while (getchar() != '\n')
+    ;
 
   return out;
 }
@@ -98,12 +99,11 @@ int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
       continue;
     }
 
-    Proxy<Arc> *arcs = tmp->arcs->head;
-    while (arcs != nullptr) {
+    for (Proxy<Arc> *arcs = tmp->arcs->head; arcs != nullptr;
+         arcs = arcs->next) {
       written +=
           fprintf(fp, "\t\"%s\" -- \"%s\" [label=%d]\n", tmp->name.c_str(),
                   arcs->link->to->name.c_str(), arcs->link->time);
-      arcs = arcs->next;
     }
 
     tmp = tmp->next;
