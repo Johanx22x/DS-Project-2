@@ -20,6 +20,7 @@ public:
   LinkedList<Proxy<class Arc>> *arcs = new LinkedList<Proxy<class Arc>>();
 
   Node(std::string name) : name(name) {}
+  Node(){};
 
   void toString();
 };
