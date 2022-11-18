@@ -26,7 +26,7 @@ void Program::run() {
 
       cmd->cmd(this);
     } catch (std::out_of_range e) {
-      printf("Program::Error: %s\n", e.what());
+      printf("Program::Error: %s\nYou can use the 'help' command to see a list of commands.\n", e.what());
     }
   }
 }
