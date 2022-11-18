@@ -41,6 +41,7 @@ template <class T> void LinkedList<T>::add(T *item) {
 
 // fun fact: this had a memory leak
 template <class T> void LinkedList<T>::remove(T *item) {
+    std::cout << "Removing " << item->id << "\n";
   if (item == nullptr) {
     return;
   }

@@ -1,3 +1,4 @@
+#include "uio.hh"
 #include <iostream>
 #include <person.hh>
 #include <program.hh>
@@ -18,7 +19,7 @@ void command(Program *ctx) {
 
   int movementType = 0;
   while (true) {
-    std::cin >> movementType;
+    movementType = getInt();
     if (movementType >= 1 && movementType <= 4) {
       break;
     }
@@ -39,8 +40,7 @@ void command(Program *ctx) {
       }
 
       std::cout << "Enter the id of the node from: ";
-      int fromId = 0;
-      std::cin >> fromId;
+      int fromId = getInt();
 
       Node *from = ctx->nodes->find(fromId);
       if (from == nullptr) {
@@ -49,8 +49,7 @@ void command(Program *ctx) {
       }
 
       std::cout << "Enter the id of the node to: ";
-      int toId = 0;
-      std::cin >> toId;
+      int toId = getInt();
 
       Node *to = ctx->nodes->find(toId);
       if (to == nullptr) {

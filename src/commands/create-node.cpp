@@ -1,7 +1,6 @@
 #include <program.hh>
 #include <iostream>
 #include <string>
-#include <uio.hh>
 #include <person.hh>
 
 extern "C" {
