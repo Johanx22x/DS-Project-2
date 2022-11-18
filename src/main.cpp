@@ -5,9 +5,9 @@
 #include <iostream>
 #include <linked_list.hh>
 #include <map>
-#include <uio.hh>
 #include <program.hh>
 #include <string>
+#include <uio.hh>
 
 #if defined(_WIN32)
 #define DL ".dll"
@@ -19,25 +19,24 @@ using std::string;
 
 int main() {
 
-  /* Context ctx; */
-  /* std::map<string, Command *> commands = std::map<string, Command *>(); */
+  Context ctx;
+  std::map<string, Command *> commands = std::map<string, Command *>();
 
-  /* for (const std::filesystem::directory_entry &entry : */
-  /*      std::filesystem::directory_iterator("./")) { */
+  for (const std::filesystem::directory_entry &entry :
+       std::filesystem::directory_iterator("./bin")) {
 
-  /*   string fileName = entry.path(); */
+    string fileName = entry.path();
 
-  /*   int position = fileName.find_last_of("."); */
+    int position = fileName.find_last_of(".");
 
-  /*   string ft = fileName.substr(position); */
+    string ft = fileName.substr(position);
 
-  /*   printf("%s %s\n", fileName.c_str(), ft.c_str()); */
-
-  /*   if (ft.compare(DL) == 0) { */
-  /*     Command *cmd = loadCommand(entry.path()); */
-  /*     commands.emplace(entry.path(), cmd); */
-  /*   } */
-  /* } */
+    if (ft.compare(DL) == 0) {
+      printf("loaded: %s %s\n", fileName.c_str(), ft.c_str());
+      Command *cmd = loadCommand(entry.path());
+      commands.emplace(entry.path(), cmd);
+    }
+  }
 
   /* dumpGraph(NULL, NULL); */
   /* compileGraph("pinga.dot"); */

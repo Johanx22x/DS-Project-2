@@ -1,9 +1,9 @@
 #ifndef PROGRAM_HH
 #define PROGRAM_HH
 
+#include <map>
 #include <person.hh>
 #include <uio.hh>
-#include <map>
 
 class Program {
 public:
@@ -14,6 +14,7 @@ public:
 
   Program();
   ~Program();
+
   void run();
 };
 

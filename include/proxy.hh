@@ -1,24 +1,16 @@
 #ifndef PROXY_HH
 #define PROXY_HH
 
-template <class T>
-class Proxy {
+template <class T> class Proxy {
+  static int next_id;
+
 public:
-    T *link = nullptr;
-    Proxy<T> *next = nullptr;
+  int id = next_id++;
+  T *link = nullptr;
+  Proxy<T> *next = nullptr;
 
-    Proxy(T *link) : link(link) {}
-
-    void add(T *link);
+  Proxy(T *link) : link(link) {}
 };
 
-template <class T>
-void Proxy<T>::add(T *newLink) {
-    if (next == nullptr) {
-        next = new Proxy<T>(newLink);
-    } else {
-        next->add(newLink);
-    }
-}
-
+template <class T> int Proxy<T>::next_id = 0;
 #endif
