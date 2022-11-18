@@ -1,6 +1,8 @@
+#include "person.hh"
 #include <program.hh>
 
 extern "C" {
+
 void command(Program *ctx) {
 
   size_t totalMinutes = 0;
@@ -8,17 +10,21 @@ void command(Program *ctx) {
   Person *firstToFinish = nullptr;
   Person *lastToFinish = nullptr;
 
+  for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+    if (tmp->mode == MovementType::DIRECT) {
+        tmp->shortestPath(tmp->from, tmp->to);
+    }
+  }
+
   while (true) {
     // primero simulamos lo que hace cada persona
     for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
       if (tmp->currentArc == nullptr) {
-        // TODO: asignar el primer arco si la persona no está en uno
         Arc *next = tmp->nextArc();
 
         if (next == nullptr) {
 
-          if (!firstToFinish)
-            firstToFinish = tmp;
+          if (!firstToFinish) firstToFinish = tmp; // WARNING: This could be an error
 
           lastToFinish = tmp;
           ctx->people->remove(tmp);
@@ -26,6 +32,7 @@ void command(Program *ctx) {
         }
 
         tmp->currentArc = next;
+        tmp->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
 
       } else if (tmp->steps >= tmp->currentArc->time) {
 
@@ -73,4 +80,5 @@ void command(Program *ctx) {
   printf("%s has the most friends, they have %d friends!\n",
          mostFriends->name.c_str(), mostFriends->friends->size);
 }
+
 }
