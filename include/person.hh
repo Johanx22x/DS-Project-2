@@ -4,8 +4,8 @@
 #include "linked_list.hh"
 #include <iostream>
 #include <proxy.hh>
-#include <string>
 #include <queue>
+#include <string>
 
 enum MovementType { RANDOM = 1, ADJACENT, THROUGH_ALL, DIRECT };
 
@@ -37,7 +37,7 @@ public:
 
   Arc *nextArc();
 
-  void shortestPath(Person *person, Node *from, Node *to, int time = 0);
+  void shortestPath(Node *from, Node *to, int time = 0);
 
   std::string toString();
 };
