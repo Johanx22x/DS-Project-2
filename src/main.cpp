@@ -1,5 +1,6 @@
 #include <command_loader.hh>
 #include <cstdio>
+#include <cstdlib>
 #include <dump.hh>
 #include <filesystem>
 #include <graph.hh>
@@ -21,14 +22,23 @@ using std::string;
 int main() {
   Node *ciudadQuesada = new Node("Ciudad Quesada");
   Node *sjo = new Node("San José");
+  Node *tigra = new Node("La Tigra");
 
   Arc *cqSjo = new Arc(5, sjo);
   Arc *sjoCq = new Arc(5, ciudadQuesada);
+  Arc *cqLt = new Arc(30, tigra);
+
+  ciudadQuesada->arcs->add(new Proxy<Arc>(cqLt));
+
   sjo->arcs->add(new Proxy<Arc>(sjoCq));
+
   ciudadQuesada->arcs->add(new Proxy<Arc>(cqSjo));
+
   LinkedList<Node> *graph = new LinkedList<Node>();
+
   graph->add(ciudadQuesada);
   graph->add(sjo);
+  graph->add(tigra);
 
   char buf[65000] = {0};
   int written = marshal(graph, buf);
@@ -39,12 +49,12 @@ int main() {
   }
   puts("");
 
-  LinkedList<Node> *graph2 = new LinkedList<Node>();
-
-  int parsed = parse(buf, graph2);
-  printf("Parsed %d bytes\n", parsed);
   FILE *ff = fopen("data.dot", "w");
-  dumpGraph(ff, graph2);
+  dumpGraph(ff, graph);
+
+  /* int parsed = parse(buf, graph2); */
+  /* printf("Parsed %d bytes\n", parsed); */
+  /* dumpGraph(ff, graph2); */
 }
 
 int omain() {

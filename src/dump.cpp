@@ -35,10 +35,6 @@ int marshal(LinkedList<Node> *__restrict graph, char *__restrict buf) {
 
 int parse(char *__restrict text, LinkedList<Node> *graph) {
   int written = 0;
-  int idx = 0;
-
-  while (true) {
-  }
 
   return written;
 }
