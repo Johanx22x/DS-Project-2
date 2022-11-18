@@ -1,8 +1,10 @@
+#include <cstdio>
 #include <program.hh>
 
 extern "C" {
 void command(Program *ctx) {
 
+  puts("Simulation started");
   size_t totalMinutes = 0;
 
   Person *firstToFinish = nullptr;

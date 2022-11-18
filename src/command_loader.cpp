@@ -13,11 +13,13 @@
 using std::string;
 
 Command *loadCommand(string name) {
-  void *libcmd = dlopen(name.c_str(), RTLD_NOW);
+  void *libcmd = dlopen(name.c_str(), RTLD_LAZY);
+  if (libcmd == nullptr)
+    printf("warning: libcmd is null\nError: %s\n", dlerror());
 
   command *cmd = (command *)dlsym(libcmd, "command");
+  if (cmd == nullptr)
+    printf("warning: cmd is null\nError: %s\n", dlerror());
 
   return new Command(name, cmd);
 }
-
-Command::Command(std::string name, command *cmd) : name(name), cmd(cmd) {}

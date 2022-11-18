@@ -11,14 +11,24 @@ Program::~Program() {}
 
 void Program::run() {
   while (true) {
+    printf(">> ");
+
     string command;
-    std::getline(std::cin, command);
+    std::getline(std::cin, command, '\n');
+
+    puts(command.c_str());
 
     try {
       Command *cmd = this->commands->at(command);
+
+      if (cmd == nullptr) {
+        puts("that command doesn't exist");
+        continue;
+      }
+
       cmd->cmd(this);
     } catch (std::out_of_range e) {
-      printf("%s\n", e.what());
+      printf("Error: %s\n", e.what());
     }
   }
 }

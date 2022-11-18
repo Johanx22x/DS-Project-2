@@ -9,8 +9,8 @@ typedef void(command)(class Program *);
 class Command {
 public:
   std::string name;
-  command *cmd;
-  Command(std::string name, command *cmd);
+  command *cmd = nullptr;
+  Command(std::string name, command *cmd) : name(name), cmd(cmd) {}
 };
 
 class CommandNotFoundException : std::exception {

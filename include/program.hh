@@ -10,7 +10,8 @@ public:
   LinkedList<Node> *nodes = nullptr;
   LinkedList<Arc> *arcs = nullptr;
   LinkedList<Person> *people = nullptr;
-  std::map<std::string, class Command *> *commands = nullptr;
+  std::map<std::string, class Command *> *commands =
+      new std::map<std::string, class Command *>();
 
   Program();
   ~Program();

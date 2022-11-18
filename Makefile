@@ -33,7 +33,7 @@ $(BINARY): $(OBJECTS)
 	$(CC) $(LINKFLAGS) $(CFLAGS) -o $@ $^ 
 
 obj/%.o: src/%.cpp | folders 
-	$(CC) $(CFLAGS) $(DEPFLAGS) -c -o $@ $< 
+	$(CC) $(CFLAGS) $(DEPFLAGS) -fPIC -c -o $@ $< 
 
 folders: 
 	@$(FOLDERS_COMMAND) 

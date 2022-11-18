@@ -1,8 +1,7 @@
-#include <program.hh>
 #include <iostream>
-#include <string>
-#include <uio.hh>
 #include <person.hh>
+#include <program.hh>
+#include <string>
 
 extern "C" {
 
@@ -27,5 +26,4 @@ void command(Program *ctx) {
 
   ctx->people->add(new Person(name, MovementType(movementType)));
 }
-
 }

@@ -19,7 +19,8 @@ using std::string;
 
 int main() {
 
-  std::map<string, Command *> commands = std::map<string, Command *>();
+  Program *p = new Program();
+  /* std::map<string, Command *> commands = std::map<string, Command *>(); */
 
   for (const std::filesystem::directory_entry &entry :
        std::filesystem::directory_iterator("./bin")) {
@@ -31,14 +32,25 @@ int main() {
     string ft = fileName.substr(position);
 
     if (ft.compare(DL) == 0) {
-      printf("loaded: %s %s\n", fileName.c_str(), ft.c_str());
+
+      puts(fileName.c_str());
+      fileName = fileName.erase(position);
+      puts(fileName.c_str());
+
+      position = fileName.find_last_of("/");
+
+      string cmdName = fileName.substr(position);
+
+      puts(cmdName.c_str());
+
+      printf("loading: %s %s\n", fileName.c_str(), ft.c_str());
       Command *cmd = loadCommand(entry.path());
-      commands.emplace(entry.path(), cmd);
+      printf("loaded: %s %s\n", fileName.c_str(), ft.c_str());
+      p->commands->emplace(cmdName, cmd);
     }
   }
 
-  Program p = Program();
-  p.run();
+  p->run();
 
   return 0;
 }

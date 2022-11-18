@@ -30,8 +30,9 @@ public:
   bool hasPath = false;
   std::queue<class Node *> path = std::queue<class Node *>();
 
-  Person(std::string name, Node from, Node to, MovementType mode);
-  Person(std::string name, MovementType mode);
+  Person(std::string name, Node *from, Node *to, MovementType mode)
+      : name(name), mode(mode), from(from), to(to) {}
+  Person(std::string name, MovementType mode) : name(name), mode(mode) {}
 
   bool addFriend(Person *person);
 
