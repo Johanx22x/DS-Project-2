@@ -25,6 +25,10 @@ void command(Program *ctx) {
     std::cout << "Invalid movement type. Try again: ";
   }
 
-  ctx->people->add(new Person(name, MovementType(movementType)));
+  MovementType type = static_cast<MovementType>(movementType - 1);
+
+  ctx->people->add(new Person(name, type));
+
+  std::cout << "Person created successfully!\n";
 }
 }
