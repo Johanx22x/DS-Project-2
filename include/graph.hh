@@ -12,6 +12,7 @@ class Node {
   static int next_id;
 
 public:
+  bool visited = false;
   int id = next_id++;
   std::string name;
   Node *next = nullptr;
