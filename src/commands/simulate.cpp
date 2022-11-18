@@ -3,7 +3,10 @@
 extern "C" {
 void command(Program *ctx) {
 
-  size_t totalSteps = 0;
+  size_t totalMinutes = 0;
+
+  Person *firstToFinish = nullptr;
+  Person *lastToFinish = nullptr;
 
   while (true) {
     // primero simulamos lo que hace cada persona
@@ -13,15 +16,16 @@ void command(Program *ctx) {
         Arc *next = tmp->nextArc();
 
         if (next == nullptr) {
+
+          if (!firstToFinish)
+            firstToFinish = tmp;
+
+          lastToFinish = tmp;
           ctx->people->remove(tmp);
           continue;
         }
 
         tmp->currentArc = next;
-
-      } else if (tmp->steps == 0) {
-
-        tmp->steps++;
 
       } else if (tmp->steps >= tmp->currentArc->time) {
 
@@ -29,15 +33,44 @@ void command(Program *ctx) {
 
         tmp->steps = 0;
         tmp->prev = tmp->from;
-        tmp->from->people->remove(p); // NOTE: remove person from previous node
         tmp->from = tmp->currentArc->to;
 
         tmp->from->people->add(p);
         tmp->currentArc = tmp->nextArc();
+        tmp->to = tmp->currentArc->to;
+
+        // make the panas
+        for (Proxy<Person> *_friend = tmp->from->people->head;
+             _friend != nullptr; _friend = _friend->next) {
+          if (_friend->link == tmp)
+            continue;
+
+          if (tmp->addFriend(_friend->link)) {
+            printf("%s is now friends with %s\n", tmp->name.c_str(),
+                   _friend->link->name.c_str());
+          }
+        }
+
+        tmp->from->people->remove(p); // NOTE: remove person from previous node
+      } else {
+        tmp->steps++;
       }
     }
 
-    totalSteps++;
+    totalMinutes++;
   }
+
+  printf("Simulation finished after %zu minutes\n", totalMinutes);
+  printf("The first person to finish was: %s\n", firstToFinish->name.c_str());
+  printf("The last person to finish was: %s\n", lastToFinish->name.c_str());
+
+  Person *mostFriends = nullptr;
+  for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+    if (mostFriends->friends->size < tmp->friends->size)
+      mostFriends = tmp;
+  }
+
+  printf("%s has the most friends, they have %d friends!\n",
+         mostFriends->name.c_str(), mostFriends->friends->size);
 }
 }

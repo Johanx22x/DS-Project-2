@@ -101,7 +101,26 @@ Arc *Person::nextArc() {
 
     return curr->link;
   } else if (mode == MovementType::ADJACENT) {
-    return nullptr;
+
+    Arc *shortest = this->from->arcs->head->link;
+
+    for (Proxy<Arc> *tmp = this->from->arcs->head; tmp != nullptr;
+         tmp = tmp->next) {
+      if (tmp->link->time < shortest->time)
+        shortest = tmp->link;
+    }
+
+    if (shortest == this->currentArc && shortest->next != nullptr) {
+      shortest = shortest->next;
+      for (Proxy<Arc> *tmp = this->from->arcs->head; tmp != nullptr;
+           tmp = tmp->next) {
+        if (tmp->link->time < shortest->time && tmp->link != this->currentArc)
+          shortest = tmp->link;
+      }
+    }
+
+    return shortest;
+
   } else if (mode == MovementType::THROUGH_ALL) {
     return nullptr;
   } else if (mode == MovementType::DIRECT) {
