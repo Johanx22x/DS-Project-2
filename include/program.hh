@@ -7,9 +7,9 @@
 
 class Program {
 public:
-  LinkedList<Node> *nodes = nullptr;
-  LinkedList<Arc> *arcs = nullptr;
-  LinkedList<Person> *people = nullptr;
+  LinkedList<Node> *nodes = new LinkedList<Node>();
+  LinkedList<Arc> *arcs = new LinkedList<Arc>();
+  LinkedList<Person> *people = new LinkedList<Person>();
   std::map<std::string, class Command *> *commands =
       new std::map<std::string, class Command *>();
 
