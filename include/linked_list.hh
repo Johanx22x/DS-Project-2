@@ -39,13 +39,18 @@ template <class T> void LinkedList<T>::add(T *item) {
   size++;
 }
 
+// fun fact: this had a memory leak
 template <class T> void LinkedList<T>::remove(T *item) {
   if (item == nullptr) {
     return;
   }
 
+  T *tmp = head;
   if (head == item) {
     head = head->next;
+
+    delete tmp;
+
     size--;
     return;
   }
@@ -54,7 +59,11 @@ template <class T> void LinkedList<T>::remove(T *item) {
   T *prev = head;
   while (curr != nullptr) {
     if (curr == item) {
+      tmp = curr;
       prev = curr->next;
+
+      delete tmp;
+
       size--;
       return;
     }

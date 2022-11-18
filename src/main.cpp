@@ -19,7 +19,6 @@ using std::string;
 
 int main() {
 
-  Context ctx;
   std::map<string, Command *> commands = std::map<string, Command *>();
 
   for (const std::filesystem::directory_entry &entry :
@@ -39,6 +38,7 @@ int main() {
   }
 
   Program p = Program();
+  p.run();
 
   return 0;
 }

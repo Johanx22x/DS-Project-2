@@ -1,5 +1,4 @@
 #include <command_loader.hh>
-#include <context.hh>
 #include <string>
 
 #if defined(_WIN32)

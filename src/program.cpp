@@ -1,31 +1,24 @@
+#include <command.hh>
 #include <program.hh>
+#include <stdexcept>
+#include <string>
 #include <sys/types.h>
 
+using std::string;
+
 Program::Program() {}
+Program::~Program() {}
 
 void Program::run() {
-  size_t totalSteps = 0;
-
   while (true) {
-    // primero simulamos lo que hace cada persona
-    for (Person *tmp = this->people->head; tmp != nullptr; tmp = tmp->next) {
-      if (tmp->steps == 0) {
-        tmp->steps++;
-        continue;
-      }
+    string command;
+    std::getline(std::cin, command);
 
-      if (tmp->steps >= tmp->currentArc->time) {
-        Proxy<Person> *p = tmp->from->people->find(tmp->id);
-        tmp->steps = 0;
-        tmp->from->people->remove(p); // NOTE: remove person from previous node
-        tmp->from = tmp->currentArc->to;
-
-        tmp->from->people->add(p);
-        /* tmp->currentArc-> */
-        // tmp->to = TODO: implementar la función que le dije johan
-      }
+    try {
+      Command *cmd = this->commands->at(command);
+      cmd->cmd(this);
+    } catch (std::out_of_range e) {
+      printf("%s\n", e.what());
     }
-
-    totalSteps++;
   }
 }
