@@ -1,4 +1,4 @@
-#include "person.hh"
+#include <person.hh>
 #include <cstdio>
 #include <program.hh>
 

@@ -7,7 +7,7 @@
 #include <queue>
 #include <string>
 
-enum MovementType { RANDOM = 1, ADJACENT, THROUGH_ALL, DIRECT };
+enum MovementType { RANDOM, ADJACENT, THROUGH_ALL, DIRECT };
 
 class Person {
   static int next_id;

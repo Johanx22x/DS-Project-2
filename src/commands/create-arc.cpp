@@ -9,7 +9,7 @@ extern "C" {
 void command(Program *ctx) {
   // Check if exist a nodes
   if (ctx->nodes->head == nullptr) {
-    std::cout << "No nodes in graph, please create some before creating arcs\n";
+    std::cout << "No nodes in graph, please create some before creating arcs.\n";
     return;
   }
 
