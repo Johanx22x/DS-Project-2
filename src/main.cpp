@@ -33,15 +33,9 @@ int main() {
 
     if (ft.compare(DL) == 0) {
 
-      puts(fileName.c_str());
       fileName = fileName.erase(position);
-      puts(fileName.c_str());
-
       position = fileName.find_last_of("/");
-
-      string cmdName = fileName.substr(position);
-
-      puts(cmdName.c_str());
+      string cmdName = fileName.substr(position+1);
 
       printf("loading: %s %s\n", fileName.c_str(), ft.c_str());
       Command *cmd = loadCommand(entry.path());

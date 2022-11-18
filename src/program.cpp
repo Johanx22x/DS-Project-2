@@ -16,8 +16,6 @@ void Program::run() {
     string command;
     std::getline(std::cin, command, '\n');
 
-    puts(command.c_str());
-
     try {
       Command *cmd = this->commands->at(command);
 

@@ -26,7 +26,7 @@ DEPFILES=$(patsubst ./src/%.cpp, ./obj/%.d, $(CFILES))
 all: $(BINARY)
 	@make -C src/commands
 
-run: $(BINARY)
+run: all
 	$(BINARY)
 
 $(BINARY): $(OBJECTS) 
