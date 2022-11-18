@@ -28,6 +28,7 @@ void command(Program *ctx) {
         Proxy<Person> *p = tmp->from->people->find(tmp->id);
 
         tmp->steps = 0;
+        tmp->prev = tmp->from;
         tmp->from->people->remove(p); // NOTE: remove person from previous node
         tmp->from = tmp->currentArc->to;
 
