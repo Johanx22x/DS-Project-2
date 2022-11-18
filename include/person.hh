@@ -5,6 +5,7 @@
 #include <iostream>
 #include <proxy.hh>
 #include <string>
+#include <queue>
 
 enum MovementType { RANDOM = 1, ADJACENT, THROUGH_ALL, DIRECT };
 
@@ -20,8 +21,14 @@ public:
 
   int steps = 0;
   class Arc *currentArc = nullptr;
+  class Node *prev = nullptr;
   class Node *from = nullptr;
   class Node *to = nullptr;
+
+  // Shortest path variables
+  int shortestTime = 0;
+  bool hasPath = false;
+  std::queue<class Node *> path = std::queue<class Node *>();
 
   Person(std::string name, Node from, Node to, MovementType mode);
   Person(std::string name, MovementType mode);
@@ -29,6 +36,8 @@ public:
   bool addFriend(Person *person);
 
   Arc *nextArc();
+
+  void shortestPath(Person *person, Node *from, Node *to, int time = 0);
 
   std::string toString();
 };
