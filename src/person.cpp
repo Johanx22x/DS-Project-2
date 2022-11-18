@@ -73,19 +73,33 @@ void Person::shortestPath(Node *from, Node *to, int time) {
 
 Arc *Person::nextArc() {
   if (mode == MovementType::RANDOM) {
+    // If only one arc exists, return it
     if (this->from->arcs->size < 2) {
       return this->from->arcs->head->link;
     }
 
-    for (Proxy<Arc> *tmp = this->from->arcs->head; tmp != nullptr;
-         tmp = tmp->next) {
+    // Get a random number between 0 and the number of arcs
+    int random = rand() % this->from->arcs->size;
 
-      if (tmp->link == this->currentArc)
-        continue;
-
-      return tmp->link;
+    // Get the arc in the random position
+    Proxy<Arc> *curr = this->from->arcs->head;
+    Proxy<Arc> *prev = nullptr;
+    for (int i = 0; i < random; i++) {
+      prev = curr;
+      curr = curr->next;
     }
 
+    if (curr->link->to == this->prev) {
+      if (curr->next != nullptr) {
+        curr = curr->next;
+      } else if (prev != nullptr) {
+        curr = prev;
+      } else {
+        curr = this->from->arcs->head;
+      }
+    }
+
+    return curr->link;
   } else if (mode == MovementType::ADJACENT) {
     return nullptr;
   } else if (mode == MovementType::THROUGH_ALL) {
