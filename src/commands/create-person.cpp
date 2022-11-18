@@ -7,6 +7,7 @@
 extern "C" {
 
 void command(Program *ctx) {
+  std::cout << "Enter the name of the person: ";
   std::string name;
   std::getline(std::cin, name);
 
