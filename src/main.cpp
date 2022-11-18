@@ -38,8 +38,7 @@ int main() {
     }
   }
 
-  /* dumpGraph(NULL, NULL); */
-  /* compileGraph("pinga.dot"); */
+  Program p = Program();
 
   return 0;
 }
