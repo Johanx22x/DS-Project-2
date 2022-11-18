@@ -50,24 +50,15 @@ void command(Program *ctx) {
     }
   }
 
-  std::cout << "Enter the distance of the arc (meters): ";
-  int time = -1;
-  while (time <= 0) {
-    time = getInt();
-    if (time <= 0) {
-      std::cout << "Invalid distance, try again: ";
-    }
-  }
-
-  Arc *arcFrom = new Arc(time, destination);
+  Arc *arcFrom = new Arc(destination);
   ctx->arcs->add(arcFrom);
   srcNode->arcs->add(new Proxy<Arc>(arcFrom));
 
-  Arc *arcTo = new Arc(time, srcNode);
+  Arc *arcTo = new Arc(srcNode);
   ctx->arcs->add(arcTo);
   destination->arcs->add(new Proxy<Arc>(arcTo));
 
-  std::cout << "Bidirectional arc with distance " << time << "m from " << srcNode->name << " to " << destination->name << " created.\n";
+  std::cout << "Bidirectional arc with distance " << arcFrom->time << "m from " << srcNode->name << " to " << destination->name << " created.\n";
 }
 
 }

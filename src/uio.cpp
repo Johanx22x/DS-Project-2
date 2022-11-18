@@ -115,3 +115,7 @@ int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
 
   return written;
 }
+
+int getRandomInt(int min, int max) {
+  return (rand() % (max - min + 1)) + min;
+}

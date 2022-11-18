@@ -95,7 +95,17 @@ void command(Program *ctx) {
       newDestination->arcs->add(new Proxy(arc->next));
       break;
     }
-    case 4: {
+    case 4: { // FIXME: Fix the remove function
+      for (Node *node = ctx->nodes->head; node; node = node->next) {
+        for (Proxy<Arc> *tmpArc = node->arcs->head; arc; arc = arc->next) {
+            if (tmpArc->link == arc) {
+                node->arcs->remove(tmpArc);
+            }
+            if (tmpArc->link == arc->next) {
+                node->arcs->remove(tmpArc);
+            }
+        }
+      }
       ctx->arcs->remove(arc);
       ctx->arcs->remove(arc->next);
       break;

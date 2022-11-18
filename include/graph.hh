@@ -29,12 +29,12 @@ class Arc {
 
 public:
   int id = next_id++;
-  int time;
+  int time = 0;
   Node *to;
 
   Arc *next = nullptr;
 
-  Arc(int time, Node *to) : time(time), to(to) {}
+  Arc(Node *to);
 
   void toString();
 };
