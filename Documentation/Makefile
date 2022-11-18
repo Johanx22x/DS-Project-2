@@ -20,3 +20,6 @@ $(OUTPUT): $(FILES)
 
 clean:
 	rm -f $(OUTPUT)
+
+run: all
+	zathura $(OUTPUT)
