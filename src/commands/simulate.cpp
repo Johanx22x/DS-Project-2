@@ -13,9 +13,8 @@ void command(Program *ctx) {
   Person *lastToFinish = nullptr;
 
   for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
-    if (tmp->mode == MovementType::DIRECT) {
-      tmp->shortestPath(tmp->from, tmp->to);
-    }
+    if (!tmp->from) continue;
+    tmp->shortestPath(tmp->from, tmp->to);
   }
 
   while (true) {

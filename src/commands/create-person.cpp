@@ -57,6 +57,11 @@ void command(Program *ctx) {
           return;
       }
 
+      if (from == to) {
+          std::cout << "The nodes must be different.\n";
+          return;
+      }
+
       ctx->people->add(new Person(name, from, to, type));
   } else {
     ctx->people->add(new Person(name, type));
