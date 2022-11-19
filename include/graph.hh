@@ -34,7 +34,7 @@ public:
 
   Arc *next = nullptr;
 
-  Arc(Node *to);
+  Arc(int time, Node *to) : time(time), to(to) {}
 
   void toString();
 };

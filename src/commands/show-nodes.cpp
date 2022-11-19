@@ -11,10 +11,13 @@ void command(Program *ctx) {
     return;
   } else {
     std::cout << "Nodes in the actual graph:\n";
-    for (Node *curr = ctx->nodes->head; curr != nullptr; curr = curr->next) {
-        std::cout << "\nID: " << curr->id << "\n";
-        std::cout << "Name: " << curr->name << "\n";
+    std::cout << "-------------------------\n";
+    std::cout << "ID\tName\n";
+    std::cout << "=========================\n";
+    for (Node *node = ctx->nodes->head; node; node = node->next) {
+        std::cout << node->id << "\t" << node->name << "\n";
     }
+    std::cout << "-------------------------\n";
   }
 }
 

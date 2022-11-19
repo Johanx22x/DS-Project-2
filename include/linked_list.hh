@@ -1,6 +1,7 @@
 #ifndef LINKED_LIST_HH
 #define LINKED_LIST_HH
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 
@@ -41,31 +42,27 @@ template <class T> void LinkedList<T>::add(T *item) {
 
 // fun fact: this had a memory leak
 template <class T> void LinkedList<T>::remove(T *item) {
-  if (item == nullptr) {
+  if (item == nullptr || head == nullptr) {
     return;
   }
 
-  T *tmp = head;
-  if (head == item) {
-    head = head->next;
-
-    delete tmp;
-
-    size--;
-    return;
-  }
-
-  T *curr = head->next;
-  T *prev = head;
+  T *curr = head;
+  T *prev = nullptr;
   while (curr != nullptr) {
-    if (curr == item) {
-      tmp = curr;
-      prev = curr->next;
-
-      delete tmp;
-
+    if (curr == item && prev) {
+      prev->next = curr->next;
+      delete curr;
       size--;
       return;
+    }
+    if (curr == item && !prev) {
+      head = head->next;
+      delete curr;
+      size--;
+      return;
+    }
+    if (curr == tail) {
+      tail = prev;
     }
 
     prev = curr;

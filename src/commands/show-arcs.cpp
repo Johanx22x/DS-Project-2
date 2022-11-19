@@ -11,11 +11,13 @@ void command(Program *ctx) {
     return;
   } else {
     std::cout << "Arcs in the actual graph:\n";
-    for (Arc *curr = ctx->arcs->head; curr != nullptr; curr = curr->next) {
-        std::cout << "\nID: " << curr->id << "\n";
-        std::cout << "To: " << curr->to->name << "\n";
-        std::cout << "Distance: " << curr->time << "m\n";
+    std::cout << "---------------------------------\n";
+    std::cout << "ID\tTime\tInfo\n";
+    std::cout << "=================================\n";
+    for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
+        std::cout << arc->id << "\t" << arc->time << "\t" << arc->to->name << " <-> " << arc->next->to->name << "\n";
     }
+    std::cout << "---------------------------------\n";
   }
 }
 

@@ -10,14 +10,18 @@ extern "C" {
 void command(Program *ctx) {
   // Check if exist arcs
   if (!ctx->arcs->size) {
-    std::cout << "No nodes in the graph" << std::endl;
+    std::cout << "No arcs in the graph to modify!\n";
     return;
   }
 
   std::cout << "Available arcs:\n";
+  std::cout << "-------------------------\n";
+  std::cout << "ID\tInfo\n";
+  std::cout << "=========================\n";
   for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
-    std::cout << arc->id << " : " << arc->to->id << " <-> " << arc->next->to->id << "\n";
+    std::cout << arc->id << "\t" << arc->to->name << " <-> " << arc->next->to->name << "\n";
   }
+  std::cout << "-------------------------\n";
 
   std::cout << "Enter arc id: ";
   int idToFind = getInt();
@@ -39,9 +43,16 @@ void command(Program *ctx) {
   switch (option) {
     case 1: {
       std::cout << "Enter new distance: ";
-      int newDistance = getInt();
+      int newDistance = -1;
+      while (newDistance <= 0) {
+        newDistance = getInt();
+        if (newDistance <= 0) {
+          std::cout << "Invalid distance! Try again: ";
+        }
+      }
       arc->time = newDistance;
       arc->next->time = newDistance;
+      std::cout << "Arc distance changed!\n";
       break;
     }
     case 2: { // FIXME: Fix this
@@ -54,6 +65,11 @@ void command(Program *ctx) {
       }
 
       if (newSource == arc->next->to) {
+        std::cout << "Source and destination cannot be the same!\n";
+        return;
+      }
+
+      if (newSource == arc->to) {
         std::cout << "Source and destination cannot be the same!\n";
         return;
       }
@@ -83,6 +99,11 @@ void command(Program *ctx) {
         return;
       }
 
+      if (newDestination == arc->next->to) {
+        std::cout << "Source and destination cannot be the same!\n";
+        return;
+      }
+
       for (Node *node = ctx->nodes->head; node; node = node->next) {
         for (Proxy<Arc> *tmpArc = node->arcs->head; arc; arc = arc->next) {
             if (tmpArc->link == arc->next) {
@@ -95,19 +116,22 @@ void command(Program *ctx) {
       newDestination->arcs->add(new Proxy(arc->next));
       break;
     }
-    case 4: { // FIXME: Fix the remove function
+    case 4: { 
+      // Delete the arc from the respective nodes
       for (Node *node = ctx->nodes->head; node; node = node->next) {
         for (Proxy<Arc> *tmpArc = node->arcs->head; arc; arc = arc->next) {
             if (tmpArc->link == arc) {
                 node->arcs->remove(tmpArc);
             }
-            if (tmpArc->link == arc->next) {
-                node->arcs->remove(tmpArc);
-            }
         }
       }
-      ctx->arcs->remove(arc);
-      ctx->arcs->remove(arc->next);
+
+      // Delete the arc from the graph
+      Arc *toDelete = ctx->arcs->find(idToFind);
+      ctx->arcs->remove(toDelete);
+      ctx->arcs->remove(toDelete->next);
+
+      std::cout << "Bidirectional arc deleted!\n";
       break;
     }
     default: {

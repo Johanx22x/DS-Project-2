@@ -15,10 +15,14 @@ void command(Program *ctx) {
   }
 
   // Show the available nodes in the graph
-  std::cout << "Available nodes: \n";
-  for (Node *temp = ctx->nodes->head; temp; temp = temp->next) {
-      std::cout << temp->id << " : " << temp->name << std::endl;
+  std::cout << "Available nodes:\n";
+  std::cout << "-------------------------\n";
+  std::cout << "ID\tName\n";
+  std::cout << "=========================\n";
+  for (Node *node = ctx->nodes->head; node; node = node->next) {
+      std::cout << node->id << "\t" << node->name << "\n";
   }
+  std::cout << "-------------------------\n";
 
   std::cout << "Enter the id of the source node: ";
   int src = getInt();
@@ -50,11 +54,13 @@ void command(Program *ctx) {
     }
   }
 
-  Arc *arcFrom = new Arc(destination);
+  int time = getRandomInt(1, 50);
+
+  Arc *arcFrom = new Arc(time, destination);
   ctx->arcs->add(arcFrom);
   srcNode->arcs->add(new Proxy<Arc>(arcFrom));
 
-  Arc *arcTo = new Arc(srcNode);
+  Arc *arcTo = new Arc(time, srcNode);
   ctx->arcs->add(arcTo);
   destination->arcs->add(new Proxy<Arc>(arcTo));
 
