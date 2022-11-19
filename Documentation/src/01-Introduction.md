@@ -9,5 +9,3 @@ Insert an image:
 ![[Logo TEC](https://weibeld.net/assets/icons/markdown.png)](images/logo.png){#fig:logo}
 
 Cite an image [@fig:logo].
-
-# Referencias Bibliográficas

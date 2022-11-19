@@ -1265,7 +1265,6 @@
   \vspace*{2\baselineskip}
 
   {\Large{\@course}} \\
-  \@professor \\
   \textbf\@title%
   \ifapamodeman{%
     \vspace{2\baselineskip}\\
@@ -1305,6 +1304,9 @@
       % \displayaffiliations
     }{%  mask author identity -- show nothing in the author or affiliations space
     }
+      \vspace*{1\baselineskip}
+      Profesor \\
+      \@professor \\
       \vspace*{2\baselineskip}
 
       \@venue \\
