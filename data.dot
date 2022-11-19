@@ -1,0 +1,5 @@
+graph A {
+	"Ciudad Quesada" -- "La Tigra" [label=30]
+	"Ciudad Quesada" -- "San José" [label=5]
+	"San José" -- "Ciudad Quesada" [label=5]
+}
