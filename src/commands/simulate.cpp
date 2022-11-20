@@ -151,33 +151,33 @@ void command(Program *ctx) {
   while (true) {
     // primero simulamos lo que hace cada persona
     bool allFinished = true;
-    for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr;
-         tmp = tmp->next) {
+    for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
+
+      // Check if the person is walking
       if (tmp->link->currentArc != nullptr) {
-        std::cout << tmp->link->name << " is going to " << tmp->link->to->name
-                  << "\n";
+          std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
+          std::cout << "Steps left: " << tmp->link->currentArc->time - tmp->link->steps << "\n";
       }
-      if (tmp->link->mode == MovementType::DIRECT ||
-          tmp->link->mode == MovementType::THROUGH_ALL) {
-        allFinished = false;
+
+      // Check if the simulation is finished
+      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
+          allFinished = false;
       }
+
+      // Check if the person is in a node
       if (tmp->link->currentArc == nullptr) {
         Arc *next = tmp->link->nextArc();
 
         if (next == nullptr) {
-
-          if (!firstToFinish)
-            firstToFinish = tmp->link; // WARNING: This could be an error
-
           lastToFinish = tmp->link;
           peopleBackup->remove(tmp);
           continue;
         }
 
         tmp->link->currentArc = next;
-        tmp->link->to =
-            next->to; // TEST: Esto se hace debido a que el parametro `to` de la
-                      // persona inicia siendo el punto final
+        tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
+                                  
+        tmp->link->from->people->remove(tmp->link->from->people->find(tmp->link->id));
       } else if (tmp->link->steps >= tmp->link->currentArc->time) {
 
         Proxy<Person> *p = tmp->link->from->people->find(tmp->link->id);
@@ -187,11 +187,7 @@ void command(Program *ctx) {
         tmp->link->from = tmp->link->currentArc->to;
 
         tmp->link->from->people->add(p);
-        tmp->link->currentArc = tmp->link->nextArc();
-        tmp->link->to = tmp->link->currentArc->to;
-
-        std::cout << tmp->link->name << " is now in " << tmp->link->from->name
-                  << "\n";
+        std::cout << tmp->link->name << " is now in " << tmp->link->from->name << "\n";
 
         // make the panas
         for (Proxy<Person> *_friend = tmp->link->from->people->head;
