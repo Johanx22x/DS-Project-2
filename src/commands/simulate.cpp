@@ -169,6 +169,8 @@ void command(Program *ctx) {
         Arc *next = tmp->link->nextArc();
 
         if (next == nullptr) {
+          if (!firstToFinish) firstToFinish = tmp->link;
+
           lastToFinish = tmp->link;
           peopleBackup->remove(tmp);
           continue;
@@ -200,13 +202,8 @@ void command(Program *ctx) {
                    _friend->link->name.c_str());
           }
         }
-
-        tmp->link->from->people->remove(
-            p); // NOTE: remove person from previous node
       } else {
         tmp->link->steps++;
-        std::cout << "Person " << tmp->link->name
-                  << " steps: " << tmp->link->steps << "\n";
       }
     }
 
