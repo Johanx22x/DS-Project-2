@@ -4,6 +4,11 @@
 
 extern "C" {
 void command(Program *ctx) {
+  if (ctx->people->size == 0) {
+    std::cout << "No available people to show!\n";
+    return;
+  }
+
   for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
     if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
         tmp->shortestPath(tmp->from, tmp->to);

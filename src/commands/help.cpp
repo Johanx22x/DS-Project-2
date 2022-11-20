@@ -5,7 +5,6 @@
 extern "C" {
 void command(Program *) { 
     std::cout << "Program commands: \n";
-    std::cout << "\n";
     std::cout << "\thelp                Display this message.\n";
     std::cout << "\texit                Exit the program.\n";
     std::cout << "\n";
@@ -13,6 +12,7 @@ void command(Program *) {
     std::cout << "\tload-graph          Load a graph from a file.\n";
     std::cout << "\tsave-graph          Save the current graph to a file.\n";
     std::cout << "\tdraw-graph          Draw the current graph into a PNG image.\n";
+    std::cout << "\tclean-graph         Remove all nodes and arcs from the graph.\n";
     std::cout << "\n";
     std::cout << "Nodes commands: \n";
     std::cout << "\tcreate-node         Create a new node.\n";
@@ -29,6 +29,7 @@ void command(Program *) {
     std::cout << "\tmodify-person       Modify or delete a person.\n";
     std::cout << "\tshow-people         Show all people.\n";
     std::cout << "\tload-default-people Load default people (20).\n";
+    std::cout << "\tclean-people        Remove all people.\n";
     std::cout << "\n";
     std::cout << "Simulation commands: \n";
     std::cout << "\tsimulate            Start the hike simulation.\n";
