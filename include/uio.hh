@@ -10,7 +10,7 @@
 int getInt();
 
 // TODO: add docs
-int getRandomInt(int min, int max);
+int getRandomInt();
 
 // TODO: add docs
 int eputs(std::string);

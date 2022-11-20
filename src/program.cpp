@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <string>
 #include <sys/types.h>
+#include <time.h>
 
 using std::string;
 
@@ -10,6 +11,7 @@ Program::Program() {}
 Program::~Program() {}
 
 void Program::run() {
+  srand(time(0));
   while (true) {
     printf(">> ");
 

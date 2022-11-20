@@ -61,7 +61,7 @@ void command(Program *ctx) {
     }
   }
 
-  int time = getRandomInt(1, 10);
+  int time = getRandomInt();
 
   Arc *arcFrom = new Arc(time, destination);
   ctx->arcs->add(arcFrom);

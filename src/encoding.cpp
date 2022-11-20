@@ -85,7 +85,7 @@ void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes)
     arc_str.ignore(1, (char)0xf4);
     arc_str >> to;
 
-    int time = getRandomInt(1, 10);
+    int time = getRandomInt();
 
     Node *fromNode = nodes->find(from);
     Arc *arcFrom = new Arc(time, nodes->find(from));
