@@ -118,10 +118,8 @@ void command(Program *ctx) {
   for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr;
        tmp = tmp->next) {
     if (tmp->link->mode == MovementType::THROUGH_ALL) {
-      /* peopleBackup->remove(tmp); // FIX: Temporarily remove people who are
-       * going */
-      // through all nodes
-      shortestPathThroughAll(tmp->link, ctx->nodes);
+      peopleBackup->remove(tmp); // FIX: Temporarily remove people who are going through all nodes
+      /* shortestPathThroughAll(tmp->link, ctx->nodes); */
     }
     if (!tmp->link->from) {
       continue;
@@ -168,14 +166,6 @@ void command(Program *ctx) {
       if (tmp->link->currentArc == nullptr) {
         Arc *next = tmp->link->nextArc();
 
-        if (next == nullptr) {
-          if (!firstToFinish) firstToFinish = tmp->link;
-
-          lastToFinish = tmp->link;
-          peopleBackup->remove(tmp);
-          continue;
-        }
-
         tmp->link->currentArc = next;
         tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
                                   
@@ -201,6 +191,17 @@ void command(Program *ctx) {
             printf("%s is now friends with %s\n", tmp->link->name.c_str(),
                    _friend->link->name.c_str());
           }
+        }
+
+        if (tmp->link->from == tmp->link->to) {
+          if (!firstToFinish) firstToFinish = tmp->link;
+          lastToFinish = tmp->link;
+
+          tmp->link->currentArc = nullptr;
+          tmp->link->to = nullptr;
+          peopleBackup->remove(tmp);
+        } else {
+          tmp->link->currentArc = nullptr;
         }
       } else {
         tmp->link->steps++;
