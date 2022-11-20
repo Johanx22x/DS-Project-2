@@ -16,6 +16,11 @@ void command(Program *ctx) {
   std::cout << "=========================\n";
   for (Node *node = ctx->nodes->head; node; node = node->next) {
       std::cout << node->id << "\t" << node->name << "\n";
+      std::cout << "\t*************\n";
+      for (Proxy<Arc> *arc = node->arcs->head; arc; arc = arc->next) {
+        std::cout << "\t" << arc->link->id << " " << arc->link->to->name << "\n";
+      }
+      std::cout << "\t*************\n";
   }
   std::cout << "-------------------------\n";
 }

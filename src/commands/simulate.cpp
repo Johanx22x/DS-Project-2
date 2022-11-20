@@ -65,7 +65,6 @@ void command(Program *ctx) {
 
   LinkedList<Person> *peopleBackupCopy = copy_people(ctx->people);
 
-  puts("Simulation started");
   size_t totalMinutes = 0;
 
   Person *firstToFinish = nullptr;
@@ -80,7 +79,6 @@ void command(Program *ctx) {
         continue;
     }
     tmp->link->shortestPath(tmp->link->from, tmp->link->to);
-    std::cout << tmp->link->name << " has path: " << tmp->link->hasPath << "\n";
     valid = true;
   }
   if (!valid) {
@@ -95,21 +93,19 @@ void command(Program *ctx) {
         tmp->link->from = ctx->nodes->head;
         continue;
     }
-    std::cout << tmp->link->name << " " << tmp->link->path.size() << "\n";
     tmp->link->path.pop();
   }
 
-  std::cout << "Simulation started\n";
+  std::cout << "All ready to simulate!\n";
 
   while (true) {
     // primero simulamos lo que hace cada persona
     bool allFinished = true;
     for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
-        if (tmp->link->currentArc != nullptr) {
-            std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
-        }
+      if (tmp->link->currentArc != nullptr) {
+          std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
+      }
       if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
-          std::cout << "WTF\n";
           allFinished = false;
       }
       if (tmp->link->currentArc == nullptr) {
@@ -125,9 +121,7 @@ void command(Program *ctx) {
         }
 
         tmp->link->currentArc = next;
-        tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to`
-                            // de la persona inicia siendo el punto final
-
+        tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
       } else if (tmp->link->steps >= tmp->link->currentArc->time) {
 
         Proxy<Person> *p = tmp->link->from->people->find(tmp->link->id);
@@ -157,6 +151,7 @@ void command(Program *ctx) {
         tmp->link->from->people->remove(p); // NOTE: remove person from previous node
       } else {
         tmp->link->steps++;
+        std::cout << "Person " << tmp->link->name << " steps: " << tmp->link->steps << "\n";
       }
     }
 
