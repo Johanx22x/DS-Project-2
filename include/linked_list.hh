@@ -71,6 +71,7 @@ template <class T> void LinkedList<T>::remove(T *item) {
 }
 
 template <class T> T *LinkedList<T>::find(int id) {
+  if (head == nullptr) return head;
   if (head->id == id) {
     return head;
   }

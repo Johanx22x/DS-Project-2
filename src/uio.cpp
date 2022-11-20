@@ -94,7 +94,7 @@ int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
 
   while (tmp != nullptr) {
 
-    if (tmp->arcs == nullptr) {
+    if (tmp->arcs->head == nullptr) {
       tmp = tmp->next;
       continue;
     }
