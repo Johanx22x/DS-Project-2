@@ -6,6 +6,8 @@
 #include <queue>
 #include <string>
 
+#define INF 1000
+
 int Person::next_id = 0;
 
 std::string Person::toString() {
@@ -40,13 +42,15 @@ bool Person::addFriend(Person *person) {
 // @param person: The person to store the path
 // @param from: The node where the person is located
 // @param to: The node where the person wants to go
-void Person::shortestPath(Node *from, Node *to, int time, std::queue<Node *> alt_path, Node *last_node) {
+void Person::shortestPath(Node *from, Node *to, int time,
+                          std::queue<Node *> alt_path, Node *last_node) {
   if (last_node != nullptr) {
-      alt_path.push(last_node);
+    alt_path.push(last_node);
   }
 
   // If the node is already visited or from is null, return
-  if (from == nullptr || from->visited) return;
+  if (from == nullptr || from->visited)
+    return;
 
   // If the node is the destination
   if (from == to) {
@@ -125,7 +129,20 @@ Arc *Person::nextArc() {
     return shortest;
 
   } else if (mode == MovementType::THROUGH_ALL) {
-    return nullptr;
+    // create a matrix that contains all nodes
+    if (this->path.empty())
+      return nullptr;
+
+    Node *nextNode = this->path.front();
+    this->path.pop();
+
+    for (Proxy<Arc> *curr = this->from->arcs->head; curr != nullptr;
+           curr = curr->next) {
+      if (curr->link->to == nextNode) {
+        return curr->link;
+      }
+    }
+
   } else if (mode == MovementType::DIRECT) {
     if (this->path.empty()) {
       return nullptr;

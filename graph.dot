@@ -1,9 +1,9 @@
 graph A {
-	"A" -- "B" [label=5]
-	"B" -- "C" [label=16]
-	"B" -- "D" [label=33]
-	"B" -- "E" [label=3]
-	"C" -- "F" [label=1]
-	"D" -- "E" [label=16]
-	"E" -- "F" [label=4]
+	"A" -- "B" [label=8]
+	"B" -- "C" [label=32]
+	"B" -- "D" [label=32]
+	"B" -- "E" [label=42]
+	"C" -- "F" [label=25]
+	"D" -- "E" [label=13]
+	"E" -- "F" [label=22]
 }

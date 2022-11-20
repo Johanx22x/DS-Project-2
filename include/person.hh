@@ -10,7 +10,7 @@
 enum MovementType { RANDOM, ADJACENT, THROUGH_ALL, DIRECT };
 
 class Person {
-    public:
+public:
   static int next_id;
   int id = next_id++;
   std::string name;
@@ -37,7 +37,9 @@ class Person {
 
   Arc *nextArc();
 
-  void shortestPath(Node *from, Node *to, int time = 0, std::queue<Node *> alt_path = std::queue<Node *>(), Node *last_node = nullptr);
+  void shortestPath(Node *from, Node *to, int time = 0,
+                    std::queue<Node *> alt_path = std::queue<Node *>(),
+                    Node *last_node = nullptr);
 
   std::string toString();
 };
