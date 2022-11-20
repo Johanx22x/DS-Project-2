@@ -48,6 +48,24 @@ void command(Program *ctx) {
       break;
     }
     case 2: {
+      for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
+        if (arc->next->to == node || arc->to == node) {
+          ctx->arcs->remove(arc);
+          ctx->arcs->remove(arc->next);
+        }
+      }
+      for (Node *n = ctx->nodes->head; n; n = n->next) {
+        for (Proxy<Arc> *arc = n->arcs->head; arc; arc = arc->next) {
+          if (arc->link->to == node) {
+            n->arcs->remove(arc);
+          }
+        }
+      }
+      for (Person *person = ctx->people->head; person; person = person->next) {
+        if (person->from == node) {
+          person->from = nullptr;
+        }
+      }
       ctx->nodes->remove(node);
       std::cout << "Node deleted!\n";
       break;
