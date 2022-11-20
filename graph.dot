@@ -1,9 +1,0 @@
-graph A {
-	"A" -- "B" [label=5]
-	"B" -- "C" [label=16]
-	"B" -- "D" [label=33]
-	"B" -- "E" [label=3]
-	"C" -- "F" [label=1]
-	"D" -- "E" [label=16]
-	"E" -- "F" [label=4]
-}
