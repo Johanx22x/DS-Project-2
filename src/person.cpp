@@ -40,30 +40,34 @@ bool Person::addFriend(Person *person) {
 // @param person: The person to store the path
 // @param from: The node where the person is located
 // @param to: The node where the person wants to go
-void Person::shortestPath(Node *from, Node *to, int time) {
-  // If the node is already visited or from is null, return
-  if (from->visited || from == nullptr) {
-    return;
+void Person::shortestPath(Node *from, Node *to, int time, std::queue<Node *> alt_path, Node *last_node) {
+  if (last_node != nullptr) {
+      alt_path.push(last_node);
   }
+
+  // If the node is already visited or from is null, return
+  if (from == nullptr || from->visited) return;
 
   // If the node is the destination
   if (from == to) {
     // If the time is less than the shortest time, update the shortest time
     if (this->shortestTime == 0 || time < this->shortestTime) {
       this->shortestTime = time;
-      this->path.push(to);
+      alt_path.push(to);
+      this->path = alt_path;
     }
     this->hasPath = true;
     return;
   }
 
-  // Mark the node as visited
   from->visited = true;
 
   // For each arc in the node
   Proxy<Arc> *curr = from->arcs->head;
   while (curr != nullptr) {
-    shortestPath(curr->link->to, to, time + curr->link->time);
+    // Call the function recursively
+    shortestPath(curr->link->to, to, time + curr->link->time, alt_path, from);
+
     curr = curr->next;
   }
 

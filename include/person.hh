@@ -38,7 +38,7 @@ public:
 
   Arc *nextArc();
 
-  void shortestPath(Node *from, Node *to, int time = 0);
+  void shortestPath(Node *from, Node *to, int time = 0, std::queue<Node *> alt_path = std::queue<Node *>(), Node *last_node = nullptr);
 
   std::string toString();
 };
