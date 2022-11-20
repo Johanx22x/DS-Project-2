@@ -12,21 +12,35 @@ void command(Program *ctx) {
   Person *firstToFinish = nullptr;
   Person *lastToFinish = nullptr;
 
+  bool valid = false;
   for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
     if (!tmp->from) continue;
     tmp->shortestPath(tmp->from, tmp->to);
+    valid = true;
+  }
+  if (!valid) {
+    std::cout << "Cannot simulate, create a person with a movement type 'direct' or 'through all' first!\n";
+    return;
+  }
+
+  // Remove the first node in the person path (for Direct and Through all), because it is the starting point
+  // We don't need to simulate the person going to the starting point
+  for (Person *tmp = ctx->people->head; tmp; tmp = tmp->next) {
+    if (!tmp->from) continue;
+    tmp->path.pop();
   }
 
   while (true) {
     // primero simulamos lo que hace cada persona
+    bool allFinished = true;
     for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+      if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) allFinished = false;
       if (tmp->currentArc == nullptr) {
         Arc *next = tmp->nextArc();
 
         if (next == nullptr) {
 
-          if (!firstToFinish)
-            firstToFinish = tmp; // WARNING: This could be an error
+          if (!firstToFinish) firstToFinish = tmp; // WARNING: This could be an error
 
           lastToFinish = tmp;
           ctx->people->remove(tmp);
@@ -66,6 +80,8 @@ void command(Program *ctx) {
         tmp->steps++;
       }
     }
+
+    if (allFinished) break;
 
     totalMinutes++;
   }
