@@ -61,21 +61,19 @@ template <class T> void LinkedList<T>::remove(T *item) {
   while (curr != nullptr) {
     if (curr == item && prev) {
       prev->next = curr->next;
-      delete curr;
+      /* delete curr; */
       size--;
       return;
     }
     if (curr == item && !prev) {
       head = head->next;
-      delete curr;
+      /* delete curr; */
       size--;
       return;
     }
     if (curr == tail) {
       tail = prev;
-      if (tail) {
-        tail->next = nullptr;
-      }
+      if (tail != nullptr) tail->next = nullptr;
     }
 
     prev = curr;

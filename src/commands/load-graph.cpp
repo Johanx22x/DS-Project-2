@@ -16,12 +16,13 @@ void list_dir(const char *path) {
 
    std::string actual_dir = ".";
    std::string parent_dir = "..";
+   std::string restricted_dir = ".PS";
 
    std::cout << "-----------------------\n";
    std::cout << "Available Graphs\n";
    std::cout << "=======================\n";
    while ((entry = readdir(dir)) != NULL) {
-       if (entry->d_name == actual_dir || entry->d_name == parent_dir) {
+       if (entry->d_name == actual_dir || entry->d_name == parent_dir || entry->d_name == restricted_dir) {
            continue;
        }
        std::cout << entry->d_name << "\n";
