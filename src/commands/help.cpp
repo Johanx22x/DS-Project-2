@@ -33,9 +33,11 @@ void command(Program *) {
     std::cout << "Simulation commands: \n";
     std::cout << "\tsimulate            Start the hike simulation.\n";
     std::cout << "\n";
-    // TODO: Add reports commands
     std::cout << "Report commands: \n";
+    std::cout << "\tshow-amplitude      Report 1 - Show the amplitude of the graph.\n";
+    std::cout << "\tshow-depth          Report 2 - Show the depth of the graph.\n";
     std::cout << "\tshow-people         Report 3 - Show all people in the list information.\n";
     std::cout << "\tshow-shortest-path  Report 4 - Show the shortest path for a person (Movement type Direc or Through all).\n";
+    // TODO: Add reports commands 5, 6 and 7.
 }
 }
