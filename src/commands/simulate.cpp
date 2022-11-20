@@ -14,6 +14,9 @@ void command(Program *ctx) {
 
   bool valid = false;
   for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+    if (tmp->mode == MovementType::THROUGH_ALL) {
+        ctx->people->remove(tmp); // FIX: Temporarily remove people who are going through all nodes
+    }
     if (!tmp->from) continue;
     tmp->shortestPath(tmp->from, tmp->to);
     valid = true;
@@ -29,6 +32,8 @@ void command(Program *ctx) {
     if (!tmp->from) continue;
     tmp->path.pop();
   }
+
+  std::cout << "Simulation started\n";
 
   while (true) {
     // primero simulamos lo que hace cada persona

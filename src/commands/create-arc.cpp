@@ -1,3 +1,4 @@
+#include <person.hh>
 #include <proxy.hh>
 #include <graph.hh>
 #include <program.hh>
@@ -12,6 +13,12 @@ void command(Program *ctx) {
   if (ctx->nodes->size < 2) {
     std::cout << "You need to create at least two nodes before create an arc.\n";
     return;
+  }
+
+  if (ctx->recently_charged) {
+    Node::next_id = ctx->nodes->size;
+    Arc::next_id = ctx->arcs->size;
+    ctx->recently_charged = false;
   }
 
   // Show the available nodes in the graph

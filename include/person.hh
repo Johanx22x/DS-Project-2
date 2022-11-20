@@ -10,9 +10,8 @@
 enum MovementType { RANDOM, ADJACENT, THROUGH_ALL, DIRECT };
 
 class Person {
+    public:
   static int next_id;
-
-public:
   int id = next_id++;
   std::string name;
   MovementType mode;

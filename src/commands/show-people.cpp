@@ -12,7 +12,7 @@ void command(Program *ctx) {
   } else {
     std::cout << "People in the actual graph:\n";
     for (Person *curr = ctx->people->head; curr != nullptr; curr = curr->next) {
-        std::cout << "ID: " << curr->id << "\n";
+        std::cout << "\nID: " << curr->id << "\n";
         std::cout << "Name: " << curr->name << "\n";
         switch (curr->mode) {
             case MovementType::DIRECT:

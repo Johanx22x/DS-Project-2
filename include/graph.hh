@@ -9,9 +9,8 @@
 #include <string>
 
 class Node {
+    public:
   static int next_id;
-
-public:
   bool visited = false;
   int id = next_id++;
   std::string name;
@@ -26,9 +25,8 @@ public:
 };
 
 class Arc {
+    public:
   static int next_id;
-
-public:
   int id = next_id++;
   int time = 0;
   Node *to;

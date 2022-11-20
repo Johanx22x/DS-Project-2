@@ -33,8 +33,9 @@ template <class T> void LinkedList<T>::add(T *item) {
     head = item;
     tail = item;
   } else {
-    tail->next = item;
-    tail = item;
+      tail->next = item;
+      tail = item;
+      tail->next = nullptr;
   }
 
   size++;
@@ -43,6 +44,15 @@ template <class T> void LinkedList<T>::add(T *item) {
 // fun fact: this had a memory leak
 template <class T> void LinkedList<T>::remove(T *item) {
   if (item == nullptr || head == nullptr) {
+    return;
+  }
+
+  if (tail == item) {
+    tail = nullptr;
+    T *current = head;
+    while (current->next != item) current = current->next;
+    current->next = nullptr;
+    tail = current;
     return;
   }
 
@@ -63,6 +73,9 @@ template <class T> void LinkedList<T>::remove(T *item) {
     }
     if (curr == tail) {
       tail = prev;
+      if (tail) {
+        tail->next = nullptr;
+      }
     }
 
     prev = curr;

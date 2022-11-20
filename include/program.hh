@@ -10,6 +10,7 @@ public:
   LinkedList<Node> *nodes = new LinkedList<Node>();
   LinkedList<Arc> *arcs = new LinkedList<Arc>();
   LinkedList<Person> *people = new LinkedList<Person>();
+  bool recently_charged = false;
   std::map<std::string, class Command *> *commands =
       new std::map<std::string, class Command *>();
 
