@@ -82,8 +82,12 @@ Arc *Person::nextArc() {
       return this->from->arcs->head->link;
     }
 
+    std::cout << "DEBUG: RANDOM 1\n";
+
     // Get a random number between 0 and the number of arcs
     int random = rand() % this->from->arcs->size;
+
+    std::cout << "DEBUG: RANDOM 2\n";
 
     // Get the arc in the random position
     Proxy<Arc> *curr = this->from->arcs->head;
@@ -92,6 +96,8 @@ Arc *Person::nextArc() {
       prev = curr;
       curr = curr->next;
     }
+
+    std::cout << "DEBUG: RANDOM 3\n";
 
     if (curr->link->to == this->prev) {
       if (curr->next != nullptr) {
@@ -103,16 +109,21 @@ Arc *Person::nextArc() {
       }
     }
 
+    std::cout << "DEBUG: RANDOM 4\n";
+
     return curr->link;
   } else if (mode == MovementType::ADJACENT) {
-
     Arc *shortest = this->from->arcs->head->link;
+
+    std::cout << "DEBUG: ADJACENT 1\n";
 
     for (Proxy<Arc> *tmp = this->from->arcs->head; tmp != nullptr;
          tmp = tmp->next) {
       if (tmp->link->time < shortest->time)
         shortest = tmp->link;
     }
+
+    std::cout << "DEBUG: ADJACENT 2\n";
 
     if (shortest == this->currentArc && shortest->next != nullptr) {
       shortest = shortest->next;
@@ -123,6 +134,8 @@ Arc *Person::nextArc() {
       }
     }
 
+    std::cout << "DEBUG: ADJACENT 3\n";
+
     return shortest;
 
   } else if (mode == MovementType::THROUGH_ALL) {
@@ -132,8 +145,12 @@ Arc *Person::nextArc() {
       return nullptr;
     }
 
+    std::cout << "DEBUG: DIRECT 1\n";
+
     Node *nextNode = this->path.front();
     this->path.pop();
+
+    std::cout << "DEBUG: DIRECT 2\n";
 
     Proxy<Arc> *curr = this->from->arcs->head;
     while (curr != nullptr) {
@@ -142,6 +159,8 @@ Arc *Person::nextArc() {
       }
       curr = curr->next;
     }
+
+    std::cout << "DEBUG: DIRECT 3\n";
   }
 
   return nullptr;

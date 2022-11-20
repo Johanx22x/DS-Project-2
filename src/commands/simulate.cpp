@@ -76,8 +76,11 @@ void command(Program *ctx) {
     if (tmp->link->mode == MovementType::THROUGH_ALL) {
         peopleBackup->remove(tmp); // FIX: Temporarily remove people who are going through all nodes
     }
-    if (!tmp->link->from) continue;
+    if (!tmp->link->from) {
+        continue;
+    }
     tmp->link->shortestPath(tmp->link->from, tmp->link->to);
+    std::cout << tmp->link->name << " has path: " << tmp->link->hasPath << "\n";
     valid = true;
   }
   if (!valid) {
@@ -88,7 +91,11 @@ void command(Program *ctx) {
   // Remove the first node in the person path (for Direct and Through all), because it is the starting point
   // We don't need to simulate the person going to the starting point
   for (Proxy<Person> *tmp = peopleBackup->head; tmp; tmp = tmp->next) {
-    if (!tmp->link->from) continue;
+    if (!tmp->link->from) {
+        tmp->link->from = ctx->nodes->head;
+        continue;
+    }
+    std::cout << tmp->link->name << " " << tmp->link->path.size() << "\n";
     tmp->link->path.pop();
   }
 
@@ -98,11 +105,15 @@ void command(Program *ctx) {
     // primero simulamos lo que hace cada persona
     bool allFinished = true;
     for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
-      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) allFinished = false;
-      std::cout << "DEBUG: first\n";
+        if (tmp->link->currentArc != nullptr) {
+            std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
+        }
+      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
+          std::cout << "WTF\n";
+          allFinished = false;
+      }
       if (tmp->link->currentArc == nullptr) {
         Arc *next = tmp->link->nextArc();
-        std::cout << "DEBUG: second\n";
 
         if (next == nullptr) {
 
@@ -113,30 +124,21 @@ void command(Program *ctx) {
           continue;
         }
 
-        std::cout << "DEBUG: third\n";
-
         tmp->link->currentArc = next;
         tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to`
                             // de la persona inicia siendo el punto final
-        std::cout << "DEBUG: fourth\n";
 
       } else if (tmp->link->steps >= tmp->link->currentArc->time) {
-          std::cout << "DEBUG: fifth\n";
 
         Proxy<Person> *p = tmp->link->from->people->find(tmp->link->id);
 
-        std::cout << "DEBUG: sixth\n";
         tmp->link->steps = 0;
         tmp->link->prev = tmp->link->from;
         tmp->link->from = tmp->link->currentArc->to;
 
-        std::cout << "DEBUG: seventh\n";
-
         tmp->link->from->people->add(p);
         tmp->link->currentArc = tmp->link->nextArc();
         tmp->link->to = tmp->link->currentArc->to;
-
-        std::cout << "DEBUG: eighth\n";
 
         std::cout << tmp->link->name << " is now in " << tmp->link->from->name << "\n";
 
@@ -152,17 +154,15 @@ void command(Program *ctx) {
           }
         }
 
-        std::cout << "DEBUG: ninth\n";
-
         tmp->link->from->people->remove(p); // NOTE: remove person from previous node
       } else {
         tmp->link->steps++;
       }
     }
 
-    if (allFinished) break;
-
     totalMinutes++;
+
+    if (allFinished) break;
   }
 
   printf("Simulation finished after %zu minutes\n", totalMinutes);
