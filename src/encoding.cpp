@@ -87,17 +87,17 @@ void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes)
 
     int time = getRandomInt();
 
-    Node *fromNode = nodes->find(from);
-    Arc *arcFrom = new Arc(time, nodes->find(from));
-
     Node *toNode = nodes->find(to);
     Arc *arcTo = new Arc(time, nodes->find(to));
+
+    Node *fromNode = nodes->find(from);
+    Arc *arcFrom = new Arc(time, nodes->find(from));
 
     fromNode->arcs->add(new Proxy<Arc>(arcTo));
     toNode->arcs->add(new Proxy<Arc>(arcFrom));
 
-    arcs->add(arcFrom);
     arcs->add(arcTo);
+    arcs->add(arcFrom);
   }
 }
 

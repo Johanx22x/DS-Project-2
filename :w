@@ -15,13 +15,14 @@ void command(Program *ctx) {
   }
 
   std::cout << "Available arcs:\n";
-  std::cout << "---------------------------------\n";
-  std::cout << "ID\tTime\tInfo\n";
-  std::cout << "=================================\n";
-  for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
-      std::cout << arc->id << "\t" << arc->time << "\t" << arc->next->to->name << " <-> " << arc->to->name << "\n";
-  }
-  std::cout << "---------------------------------\n";
+    std::cout << "Arcs in the actual graph:\n";
+    std::cout << "---------------------------------\n";
+    std::cout << "ID\tTime\tInfo\n";
+    std::cout << "=================================\n";
+    for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
+        std::cout << arc->id << "\t" << arc->time << "\t" << arc->next->to->name << " <-> " << arc->to->name << "\n";
+    }
+    std::cout << "---------------------------------\n";
 
   std::cout << "Enter arc id: ";
   int idToFind = getInt();
@@ -71,23 +72,20 @@ void command(Program *ctx) {
       std::cout << "-------------------------\n";
 
       std::cout << "Enter new source node id: ";
-      int newSrcId = getInt();
-      Node *newSrc = ctx->nodes->find(newSrcId);
-      if (!newSrc) {
+      int newDestId = getInt();
+      Node *newDest = ctx->nodes->find(newDestId);
+      if (!newDest) {
         std::cout << "Node not found!\n";
         return;
       }
 
       Node *oldSrc = arc->next->to;
-      // Remove the arc from the old source node 
-      for (Proxy<Arc> *proxy = oldSrc->arcs->head; proxy; proxy = proxy->next) {
-        if (proxy->link->id == arc->id) {
-          oldSrc->arcs->remove(proxy);
-          break;
+      for (Arc *arcTmp = oldSrc->arcs->head; arc; arc = arc->next) {
+        if (arc->to == newDest) {
+          std::cout << "Arc already exists!\n";
+          return;
         }
       }
-      newSrc->arcs->add(new Proxy<Arc>(arc));
-      arc->next->to = newSrc;
 
       std::cout << "Arc source changed!\n";
       break;
@@ -110,15 +108,16 @@ void command(Program *ctx) {
         return;
       }
 
-      Node *oldDest = arc->to;
-      for (Proxy<Arc> *proxy = oldDest->arcs->head; proxy; proxy = proxy->next) {
+      Node *oldSrc = arc->to;
+      for (Proxy<Arc> *proxy = oldSrc->arcs->head; proxy; proxy = proxy->next) {
         if (proxy->link->id == arc->next->id) {
-          oldDest->arcs->remove(proxy);
+          std::cout << "DEBUG: Removing arc " << proxy->link->id << " from node " << oldSrc->name << "\n";
+          oldSrc->arcs->remove(proxy);
           break;
         }
       }
-      newDest->arcs->add(new Proxy<Arc>(arc->next));
       arc->to = newDest;
+      newDest->arcs->add(new Proxy<Arc>(arc->next));
 
       std::cout << "Arc destination changed!\n";
       break;

@@ -47,6 +47,12 @@ template <class T> void LinkedList<T>::remove(T *item) {
     return;
   }
 
+  if (head == item) {
+    head = head->next;
+    size--;
+    return;
+  }
+
   if (tail == item) {
     tail = nullptr;
     T *current = head;

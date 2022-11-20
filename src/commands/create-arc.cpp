@@ -63,13 +63,13 @@ void command(Program *ctx) {
 
   int time = getRandomInt();
 
-  Arc *arcFrom = new Arc(time, destination);
-  ctx->arcs->add(arcFrom);
-  srcNode->arcs->add(new Proxy<Arc>(arcFrom));
-
   Arc *arcTo = new Arc(time, srcNode);
   ctx->arcs->add(arcTo);
   destination->arcs->add(new Proxy<Arc>(arcTo));
+
+  Arc *arcFrom = new Arc(time, destination);
+  ctx->arcs->add(arcFrom);
+  srcNode->arcs->add(new Proxy<Arc>(arcFrom));
 
   std::cout << "Bidirectional arc with distance " << arcFrom->time << "m from " << srcNode->name << " to " << destination->name << " created.\n";
 }

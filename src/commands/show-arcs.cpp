@@ -15,7 +15,7 @@ void command(Program *ctx) {
     std::cout << "ID\tTime\tInfo\n";
     std::cout << "=================================\n";
     for (Arc *arc = ctx->arcs->head; arc; arc = arc->next->next) {
-        std::cout << arc->id << "\t" << arc->time << "\t" << arc->to->name << " <-> " << arc->next->to->name << "\n";
+        std::cout << arc->id << "\t" << arc->time << "\t" << arc->next->to->name << " <-> " << arc->to->name << "\n";
     }
     std::cout << "---------------------------------\n";
   }
