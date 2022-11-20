@@ -3,6 +3,11 @@
 #include <iostream>
 #include <linked_list.hh>
 
+struct conn {
+    Node *from;
+    Node *to;
+};
+
 int eputs(std::string);
 
 #if defined(_WIN32)
@@ -30,36 +35,27 @@ void compileGraph(const *char name) {
 #include <sys/wait.h>
 #include <unistd.h>
 
+// This function compiles the graph into a png file
+// using the dot program.
 void compileGraph(char *const name) {
-  pid_t pid;
+  pid_t pid = fork();
+  if (pid == 0) {
+    execlp("dot", "dot", "graph.dot", "-Tpng", "-o", name, NULL);
+    eputs("error spawning dot process\n");
+    return;
+  } else if (pid < 0) {
+    eputs("error forking\n");
+    return;
+  }
+
   int status;
-  pid_t ret;
-
-  char *const args[6] = {name, "-Tpng", "-o", "out.png", NULL};
-  char **env;
-  extern char **environ;
-
-  pid = fork();
-  if (pid == -1) {
-    eputs("error forking main process\n");
-    exit(-1);
-  } else if (pid != 0) {
-    while ((ret = waitpid(pid, &status, 0)) == -1) {
-      if (errno != EINTR) {
-        break;
-      }
-    }
-    if ((ret == 0) || !(WIFEXITED(status) && !WEXITSTATUS(status))) {
-      eputs("unexpected child status\n");
-      exit(-2);
-    }
-  } else {
-    if (execve("dot", args, env) == -1) {
-      eputs("unexpected return status\n");
-      exit(-3);
-    }
+  waitpid(pid, &status, 0);
+  if (WIFEXITED(status) && WEXITSTATUS(status) != 0) {
+    eputs("error compiling graph with dot\n");
+    return;
   }
 }
+
 #endif
 
 int getInt() {
@@ -92,6 +88,7 @@ int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
 
   written += fputs("graph A {\n", fp);
 
+  LinkedList<Proxy<conn>> *conns = new LinkedList<Proxy<conn>>();
   while (tmp != nullptr) {
 
     if (tmp->arcs->head == nullptr) {
@@ -99,11 +96,20 @@ int dumpGraph(FILE *fp, LinkedList<Node> *nodes) {
       continue;
     }
 
-    for (Proxy<Arc> *arcs = tmp->arcs->head; arcs != nullptr;
-         arcs = arcs->next) {
-      written +=
-          fprintf(fp, "\t\"%s\" -- \"%s\" [label=%d]\n", tmp->name.c_str(),
-                  arcs->link->to->name.c_str(), arcs->link->time);
+    for (Proxy<Arc> *arcs = tmp->arcs->head; arcs != nullptr; arcs = arcs->next) {
+      bool found = false;
+      for (Proxy<conn> *c = conns->head; c != nullptr; c = c->next) {
+        if (c->link->from == arcs->link->to && c->link->to == tmp) {
+            found = true;
+            break;
+        }
+      }
+      if (!found) {
+          written +=
+              fprintf(fp, "\t\"%s\" -- \"%s\" [label=%d]\n", tmp->name.c_str(),
+                      arcs->link->to->name.c_str(), arcs->link->time);
+          conns->add(new Proxy<conn>{new conn{tmp, arcs->link->to}});
+      }
     }
 
     tmp = tmp->next;
