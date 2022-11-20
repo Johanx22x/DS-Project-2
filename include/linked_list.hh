@@ -33,9 +33,9 @@ template <class T> void LinkedList<T>::add(T *item) {
     head = item;
     tail = item;
   } else {
-      tail->next = item;
-      tail = item;
-      tail->next = nullptr;
+    tail->next = item;
+    tail = item;
+    tail->next = nullptr;
   }
 
   size++;
@@ -82,7 +82,8 @@ template <class T> void LinkedList<T>::remove(T *item) {
 }
 
 template <class T> T *LinkedList<T>::find(int id) {
-  if (head == nullptr) return head;
+  if (head == nullptr)
+    return head;
   if (head->id == id) {
     return head;
   }
