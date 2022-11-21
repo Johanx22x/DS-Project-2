@@ -7,6 +7,13 @@
 // command type definition, describes a command function pointer
 typedef void(command)(class Program *);
 
+/**
+ * Command class
+ * This class is used to store a command function pointer and its name
+ *
+ * @author Aaron Gonzalez
+ * @version 1.0
+ */
 class Command {
 public:
   std::string name;
