@@ -1,0 +1,11 @@
+# Introducción
+
+This template works with markdown, so you can write your paper using the advantages of markdown.
+
+This is a cite [@default].
+
+Insert an image:
+
+![[Logo TEC](https://weibeld.net/assets/icons/markdown.png)](images/logo.png){#fig:logo}
+
+Cite an image [@fig:logo].

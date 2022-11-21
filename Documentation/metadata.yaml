@@ -1,0 +1,17 @@
+author: Johan Rodríguez, Aaron Gonzalez
+title: Segundo Proyecto
+lang: es
+
+documentclass: ./lib/apa7tec
+classoption:
+  - stu
+  - helv
+  - longtable
+
+header-includes: |
+  \affiliation{Instituto Tecnologico de Costa Rica}
+  \course{Estructuras de Datos}
+  \professor{Lorena Valerio}
+  \duedate{2022}
+  \venue{Sede San Carlos}
+  \mes{II Semestre}
