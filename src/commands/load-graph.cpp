@@ -33,6 +33,11 @@ void list_dir(const char *path) {
 
 extern "C" {
 void command(Program *ctx) {
+    if (ctx->simulationDone) {
+        std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+        return;
+    }
+
     std::cout << "If you load a graph, you will lose all unsaved changes. Are you sure you want to continue? (y/N): ";
     char c;
     std::cin >> c;

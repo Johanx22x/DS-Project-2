@@ -3,6 +3,11 @@
 
 extern "C" {
 void command(Program *ctx) {
+    if (ctx->simulationDone) {
+        std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+        return;
+    }
+
     Node *graph = ctx->nodes->head;
     
     while (graph != nullptr) {

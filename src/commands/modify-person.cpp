@@ -8,6 +8,10 @@
 extern "C" {
 
 void command(Program *ctx) {
+    if (ctx->simulationDone) {
+        std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+        return;
+    }
   // Check if exist people
   if (!ctx->people->size) {
     std::cout << "No people to modify!\n";

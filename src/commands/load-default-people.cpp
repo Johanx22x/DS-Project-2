@@ -1,3 +1,4 @@
+#include "linked_list.hh"
 #include <person.hh>
 #include <cstdio>
 #include <iostream>
@@ -5,6 +6,22 @@
 
 extern "C" {
 void command(Program *ctx) { 
+    if (ctx->simulationDone) {
+        std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+        return;
+    }
+
+    std::cout << "If you load people, you will lose all unsaved changes. Are you sure you want to continue? (y/N): ";
+    char c;
+    std::cin >> c;
+    if (!(c == 'y' || c == 'Y')) {
+        return;
+    }
+
+    while (getchar() != '\n');
+
+    ctx->people = new LinkedList<Person>();
+
     ctx->people->add(new Person("Mark Zuckerberg", MovementType::RANDOM));
     ctx->people->add(new Person("Steve Jobs", MovementType::RANDOM));
     ctx->people->add(new Person("Bill Gates", MovementType::RANDOM));

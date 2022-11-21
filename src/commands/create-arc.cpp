@@ -9,6 +9,10 @@
 extern "C" {
 
 void command(Program *ctx) {
+  if (ctx->simulationDone) {
+      std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+      return;
+  }
   // Check if exist a nodes
   if (ctx->nodes->size < 2) {
     std::cout << "You need to create at least two nodes before create an arc.\n";

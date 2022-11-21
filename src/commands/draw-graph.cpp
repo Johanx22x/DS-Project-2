@@ -5,6 +5,11 @@
 
 extern "C" {
 void command(Program *ctx) { 
+  if (ctx->simulationDone) {
+      std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+      return;
+  }
+
     FILE *f = fopen("graph.dot", "w");
     dumpGraph(f, ctx->nodes);
     compileGraph("graph.png");
