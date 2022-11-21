@@ -9,7 +9,7 @@
 #include <string>
 
 class Node {
-    public:
+public:
   static int next_id;
   bool visited = false;
   int id = next_id++;

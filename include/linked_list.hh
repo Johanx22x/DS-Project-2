@@ -43,6 +43,7 @@ template <class T> void LinkedList<T>::add(T *item) {
 
 // fun fact: this had a memory leak
 template <class T> void LinkedList<T>::remove(T *item) {
+  std::cout << "Removing item: " << item << "\n";
   if (item == nullptr || head == nullptr) {
     return;
   }
@@ -56,7 +57,8 @@ template <class T> void LinkedList<T>::remove(T *item) {
   if (tail == item) {
     tail = nullptr;
     T *current = head;
-    while (current->next != item) current = current->next;
+    while (current->next != item)
+      current = current->next;
     current->next = nullptr;
     tail = current;
     return;
@@ -79,7 +81,8 @@ template <class T> void LinkedList<T>::remove(T *item) {
     }
     if (curr == tail) {
       tail = prev;
-      if (tail != nullptr) tail->next = nullptr;
+      if (tail != nullptr)
+        tail->next = nullptr;
     }
 
     prev = curr;

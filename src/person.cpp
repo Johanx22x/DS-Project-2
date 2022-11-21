@@ -79,7 +79,7 @@ void Person::shortestPath(Node *from, Node *to, int time,
 Arc *Person::nextArc() {
   if (mode == MovementType::RANDOM) {
     // If only one arc exists, return it
-    if (this->from->arcs->size < 2) {
+    if (this->from->arcs->size == 1) {
       return this->from->arcs->head->link;
     }
 

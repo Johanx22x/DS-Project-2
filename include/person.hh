@@ -26,7 +26,7 @@ public:
 
   // Shortest path variables
   int shortestTime = 0;
-  bool hasPath = false;
+  bool hasPath = true;
   std::queue<class Node *> path = std::queue<class Node *>();
 
   Person(std::string name, Node *from, Node *to, MovementType mode)

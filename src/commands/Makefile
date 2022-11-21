@@ -1,5 +1,5 @@
 COMMANDS = $(wildcard *.cpp)
-OUTPUT = $(patsubst %.cpp,%.so,$(COMMANDS))
+OUTPUT = $(patsubst %.cpp,../../bin/%.so,$(COMMANDS))
 INCLUDEDIR = ../../include
 OBJECTS = $(wildcard ../../obj/*.o)
 DEPS = $(wildcard *.d)
@@ -9,7 +9,7 @@ CC = clang++
 
 program: $(OUTPUT)
 
-%.so: %.cpp $(OBJECTS)
-	$(CC) $(CXXFLAGS) -shared -fPIC -o ../../bin/$@ $^
+../../bin/%.so: %.cpp $(OBJECTS)
+	$(CC) $(CXXFLAGS) -shared -fPIC -o $@ $^
 
 -include $(DEPS)
