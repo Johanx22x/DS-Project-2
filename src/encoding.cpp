@@ -68,9 +68,15 @@ int encodePeople(LinkedList<Person> *__restrict people, char *__restrict buf) {
 
   for (Person *person = people->head; person != nullptr;
        person = person->next) {
-    written +=
-        sprintf(buf + written, "%s\xf4%d\xf4%d\xf4%d\xc3", person->name.c_str(),
-                person->from->id, person->to->id, person->mode);
+    if (person->mode == MovementType::DIRECT ||
+        person->mode == MovementType::THROUGH_ALL) {
+      written += sprintf(buf + written, "%s\xf4%d\xf4%d\xf4%d\xc3",
+                         person->name.c_str(), person->from->id, person->to->id,
+                         person->mode);
+    } else {
+      written += sprintf(buf + written, "%s\xf4%d\xf4%d\xf4%d\xc3",
+                         person->name.c_str(), 0, 0, person->mode);
+    }
   }
 
   return written;
@@ -95,8 +101,12 @@ void decodePeople(string filename, LinkedList<Person> *people,
     person_str.ignore(1, (char)0xf4);
     person_str >> movement_type;
 
-    people->add(new Person(name, graph->find(from), graph->find(to),
-                           static_cast<MovementType>(movement_type)));
+    MovementType mType = static_cast<MovementType>(movement_type);
+    if (mType == MovementType::RANDOM || mType == MovementType::ADJACENT) {
+      people->add(new Person(name, graph->find(from), graph->find(to), mType));
+    } else {
+      people->add(new Person(name, mType));
+    }
   }
 }
 
