@@ -17,7 +17,9 @@ acciones dentro del programa.
 
 Dentro del programa se deben de crear estructuras dinamicas para almacenar 
 los datos, ademas de eso, se debe de manejar la informacion por punteros e 
-intermediarios que permitan asociar los arcos a sus respectivos nodos.
+intermediarios que permitan asociar los arcos a sus respectivos nodos, 
+teniendo en cuenta tambien que cada persona debe de tener una lista de 
+amigos.
 
 Tomando en cuenta que los nodos representan lugares que se pueden visitar 
 dentro de la simulacion, y los arcos las rutas por las cuales las personas 
