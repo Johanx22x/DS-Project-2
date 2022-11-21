@@ -16,9 +16,11 @@ std::string Person::toString() {
 }
 
 bool Person::addFriend(Person *person) {
+  if (friends == nullptr)
+    friends = new LinkedList<Proxy<Person>>();
   // Check if the new friend is already in the list
   Proxy<Person> *curr = friends->head;
-  while (curr != NULL) {
+  while (curr != nullptr) {
     if (curr->link == person) {
       return false;
     }
@@ -26,12 +28,7 @@ bool Person::addFriend(Person *person) {
   }
 
   // Add the new friend to the list
-  if (friends == nullptr) {
-    /* friends = new LinkedList<Proxy<Person>, 1>(Proxy<Person>(person)); */
-    friends = new LinkedList<Proxy<Person>>();
-  } else {
-    friends->add(new Proxy<Person>(person));
-  }
+  friends->add(new Proxy<Person>(person));
 
   return true;
 }
@@ -137,7 +134,7 @@ Arc *Person::nextArc() {
     this->path.pop();
 
     for (Proxy<Arc> *curr = this->from->arcs->head; curr != nullptr;
-           curr = curr->next) {
+         curr = curr->next) {
       if (curr->link->to == nextNode) {
         return curr->link;
       }

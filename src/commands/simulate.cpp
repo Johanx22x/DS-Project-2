@@ -187,6 +187,7 @@ void command(Program *ctx) {
           if (_friend->link == tmp->link)
             continue;
 
+          puts("about to try and add some friends");
           if (tmp->link->addFriend(_friend->link)) {
             printf("%s is now friends with %s\n", tmp->link->name.c_str(),
                    _friend->link->name.c_str());
