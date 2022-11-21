@@ -17,6 +17,11 @@ void command(Program *ctx) {
   std::cout << "4 - Direct\n";
   std::cout << "Select movement type: ";
 
+  if (ctx->reset) {
+    Person::next_id = ctx->people->size;
+    ctx->reset = false;
+  }
+
   int movementType = 0;
   while (true) {
     movementType = getInt();

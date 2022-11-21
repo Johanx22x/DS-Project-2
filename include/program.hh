@@ -12,6 +12,7 @@ public:
   LinkedList<Person> *people = new LinkedList<Person>();
   bool recently_charged = false;
   bool simulationDone = false;
+  bool reset = false;
   std::map<std::string, class Command *> *commands =
       new std::map<std::string, class Command *>();
 

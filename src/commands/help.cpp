@@ -39,9 +39,8 @@ void command(Program *) {
     std::cout << "\tshow-depth          Report 2 - Show the depth of the graph.\n";
     std::cout << "\tshow-people         Report 3 - Show all people in the list information.\n";
     std::cout << "\tshow-shortest-path  Report 4 - Show the shortest path for a person (Movement type Direc or Through all).\n";
-    std::cout << "\tshow-fridnds        Report 5 - Show the names of the friends X person got\n";
+    std::cout << "\tshow-friends        Report 5 - Show the names of the friends X person got\n";
     std::cout << "\tshow-no-friends     Report 6 - Show the names of the people who got 0 friends\n";
     std::cout << "\tshow-no-walkies     Report 7 - Show the names of the people who got trapped in a node due to there not being a way out\n";
-    // TODO: Add reports commands 5, 6 and 7.
 }
 }

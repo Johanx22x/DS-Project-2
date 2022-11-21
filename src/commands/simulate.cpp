@@ -18,6 +18,9 @@ void saveActualGraph(Program *ctx) {
   char *buffer2 = new char[64000];
   encodeArcs(ctx->arcs, buffer2);
 
+  char *buffer3 = new char[64000];
+  encodePeople(ctx->people, buffer3);
+
   std::string dirName = ".PS";
   dirName = "./GRAPHS/" + dirName;
 
@@ -39,14 +42,12 @@ void saveActualGraph(Program *ctx) {
   fprintf(out, "%s", buffer2);
   fflush(out);
   fclose(out);
-}
 
-LinkedList<Proxy<Person>> *copyPeople(LinkedList<Person> *ctxPeople) {
-  LinkedList<Proxy<Person>> *newPeople = new LinkedList<Proxy<Person>>();
-  for (Person *tmp = ctxPeople->head; tmp; tmp = tmp->next) {
-    newPeople->add(new Proxy<Person>(tmp));
-  }
-  return newPeople;
+  std::string peoplePath = dirName + "/people.bin";
+  out = fopen(peoplePath.c_str(), "w");
+  fprintf(out, "%s", buffer3);
+  fflush(out);
+  fclose(out);
 }
 
 #define INF 1000
@@ -93,24 +94,14 @@ void shortestPathThroughAll(Person *player, LinkedList<Node> *graph) {
   }
 }
 
-LinkedList<Person> *copy_people(LinkedList<Person> *ctxPeople) {
-  LinkedList<Person> *newPeople = new LinkedList<Person>();
-  for (Person *tmp = ctxPeople->head; tmp; tmp = tmp->next) {
-    newPeople->add(new Person(tmp->name, tmp->from, tmp->to, tmp->mode));
-  }
-  return newPeople;
-}
-
 extern "C" {
 
 void command(Program *ctx) {
-  // Save the actual GRAPH
-  saveActualGraph(ctx);
-  /* LinkedList<Proxy<Person>> *peopleBackup = new LinkedList<Proxy<Person>>(); */
-  /* peopleBackup = copyPeople(ctx->people); */
-
-  /* LinkedList<Person> *peopleBackupCopy = copy_people(ctx->people); */
-
+    if (ctx->simulationDone) {
+        std::cout << "Simulation already done!\n";
+        std::cout << "Use 'reset' to reset the simulation.\n";
+        return;
+    }
   size_t totalMinutes = 0;
   Person *firstToFinish = nullptr;
   Person *lastToFinish = nullptr;
@@ -121,7 +112,6 @@ void command(Program *ctx) {
   // to the starting point
   for (Person *person = ctx->people->head; person; person = person->next) {
       person->inSimulation = true;
-      /* person->inNode = true; */
       person->currentArc = nullptr;
       if (person->mode == MovementType::THROUGH_ALL) {
           person->inSimulation = false; // NOTE: We don't simulate this person
@@ -146,23 +136,20 @@ void command(Program *ctx) {
                 continue;
             }
             if (person->from->id == _friend->from->id) {
-                /* if (person->inNode && _friend->inNode) { */
-
                   std::vector<Person*>::iterator it = find(person->friends->begin(), person->friends->end(), _friend);
                   if (it == person->friends->end()) {
                       person->friends->push_back(_friend);
                       printf("%s is now friends with %s!\n", person->name.c_str(), _friend->name.c_str());
                   }
-
-/*                 } */
             }
         }
     }
 
+    // Save the actual GRAPH
+    saveActualGraph(ctx);
+
     for (Person *person = ctx->people->head; person != nullptr; person = person->next){
-      if (person->mode == MovementType::ADJACENT || person->mode == MovementType::RANDOM) {
-        person->hasPath = true;
-      }
+      person->hasPath = true;
     }
 
   while (true) {
@@ -188,7 +175,6 @@ void command(Program *ctx) {
 
         if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
           if (next == nullptr) {
-            std::cout << tmp->name << " Has finished!\n";
             if (!firstToFinish) firstToFinish = tmp;
             lastToFinish = tmp;
             tmp->inSimulation = false;
@@ -197,10 +183,10 @@ void command(Program *ctx) {
           }
         } else {
           if (next == nullptr) {
-            puts("nigga nae nae nigga nigga nae nae nigga nigga nae nae");
             tmp->hasPath = false;
             tmp->inNode = false;
             tmp->inSimulation = false;
+            continue;
           }
         }
 
@@ -258,7 +244,9 @@ void command(Program *ctx) {
       break;
   }
 
-  printf("Simulation finished after %zu minutes\n", totalMinutes);
+  printf("Simulation finished after %zu minutes\n\n", totalMinutes);
+
+  printf("Consults:\n");
   printf("The first person to finish was: %s\n", firstToFinish->name.c_str());
   printf("The last person to finish was: %s\n", lastToFinish->name.c_str());
 
@@ -271,6 +259,5 @@ void command(Program *ctx) {
   printf("%s has the most friends, they have %zu friends!\n", mostFriends->name.c_str(), mostFriends->friends->size());
 
   ctx->simulationDone = true;
-  /* ctx->people = peopleBackupCopy; */
 }
 }

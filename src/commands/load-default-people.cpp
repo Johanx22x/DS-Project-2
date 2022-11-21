@@ -29,6 +29,8 @@ void command(Program *ctx) {
     ctx->people->add(new Person("Jorge Alfaro", ctx->nodes->find(3), ctx->nodes->find(0), MovementType::DIRECT));
     ctx->people->add(new Person("Rogelio Quiros", ctx->nodes->find(2), ctx->nodes->find(3), MovementType::DIRECT));
 
+    ctx->reset = true;
+
     std::cout << "Default people loaded\n";
 }
 }

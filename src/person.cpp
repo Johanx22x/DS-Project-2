@@ -78,8 +78,15 @@ void Person::shortestPath(Node *from, Node *to, int time,
 
 Arc *Person::nextArc() {
   if (mode == MovementType::RANDOM) {
+    if (this->from->arcs == nullptr) {
+      return nullptr;
+    }
+
     // If only one arc exists, return it
     if (this->from->arcs->size < 2) {
+      if (this->from->arcs->head == nullptr) {
+        return nullptr;
+      }
       return this->from->arcs->head->link;
     }
 
@@ -106,6 +113,16 @@ Arc *Person::nextArc() {
 
     return curr->link;
   } else if (mode == MovementType::ADJACENT) {
+    if (this->from->arcs == nullptr) {
+      return nullptr;
+    }
+
+    if (this->from->arcs->size < 2) {
+      if (this->from->arcs->head == nullptr) {
+        return nullptr;
+      }
+      return this->from->arcs->head->link;
+    }
     Arc *shortest = this->from->arcs->head->link;
 
     for (Proxy<Arc> *tmp = this->from->arcs->head; tmp != nullptr;

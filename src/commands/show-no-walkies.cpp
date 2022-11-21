@@ -14,8 +14,7 @@ void command(Program *ctx) {
   puts("---------------------------------");
   for (Person *person = ctx->people->head; person != nullptr;
        person = person->next) {
-    if (!person->hasPath && (person->mode == MovementType::DIRECT ||
-                             person->mode == MovementType::THROUGH_ALL)) {
+    if (!person->hasPath) {
       printf("%d\t%s\n", person->id, person->name.c_str());
     }
   }
