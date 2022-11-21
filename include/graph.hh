@@ -21,6 +21,9 @@ class Node {
   Node(std::string name) : name(name) {}
   Node(){};
 
+  /**
+   * Prints a stringified version of the node
+   */
   void toString();
 };
 
@@ -35,6 +38,9 @@ class Arc {
 
   Arc(int time, Node *to) : time(time), to(to) {}
 
+  /**
+   * Prints a stringified version of the arc
+   */
   void toString();
 };
 

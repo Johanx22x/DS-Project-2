@@ -37,14 +37,37 @@ public:
       : name(name), mode(mode), from(from), to(to) {}
   Person(std::string name, MovementType mode) : name(name), mode(mode) {}
 
+  /**
+   * Adds a friend to this user's friends list
+   *
+   * @param person The friend to be added
+   * @return Whether or not the friend was actually added
+   */
   bool addFriend(Person *person);
 
+  /**
+   * Returns the next arc where the user should move
+   *
+   * @return The next arc
+   */
   Arc *nextArc();
 
+  /**
+   * Calculates and sets the shortest path between 2 nodes
+   *
+   * @param from The origin node
+   * @param to The destination node
+   * @param time The current time within an arc
+   */
   void shortestPath(Node *from, Node *to, int time = 0,
                     std::queue<Node *> alt_path = std::queue<Node *>(),
                     Node *last_node = nullptr);
 
+  /**
+   * Returns a string representation of the current person
+   *
+   * @return A string representation of the current person
+   */
   std::string toString();
 };
 

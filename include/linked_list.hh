@@ -17,12 +17,31 @@ public:
 
   LinkedList(T *list, int size) : head(list), size(size) {}
 
+  /**
+   * Adds an element to the list
+   *
+   * @param item The item to be added
+   */
   void add(T *item);
 
+  /**
+   * Removes an element from the list
+   *
+   * @param item The element to be removed
+   */
   void remove(T *item);
 
+  /**
+   * Finds an element on the list and returns it
+   *
+   * @param id The id of the elemnt to find
+   * @return The element, if it was found, otherwise returns NULL
+   */
   T *find(int id);
 
+  /**
+   * Prints the list
+   */
   void print();
 };
 
