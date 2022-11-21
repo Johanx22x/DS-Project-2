@@ -211,9 +211,7 @@ void command(Program *ctx) {
 
       // Check if the person is walking through an arc
       if (tmp->currentArc != nullptr) {
-          if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
-              std::cout << tmp->name << " is going to " << tmp->to->name << "\n";
-          }
+          std::cout << tmp->name << " is going to " << tmp->to->name << "\n";
       }
     }
 

@@ -24,9 +24,17 @@ void command(Program *ctx) {
     ctx->arcs = new LinkedList<Arc>();
     ctx->people = new LinkedList<Person>();
 
+    Node::next_id = 0;
+    Arc::next_id = 0;
+    Person::next_id = 0;
+
+    std::cout << "Resetting the graph...\n";
+
     decodeNodes(nodes_path, ctx->nodes);
     decodeArcs(arcs_path, ctx->arcs, ctx->nodes);
     decodePeople(people_path, ctx->people, ctx->nodes);
+
+    std::cout << "Graph reset.\n";
 
     std::cout << "Loaded " << ctx->nodes->size << " nodes\n";
     std::cout << "Loaded " << ctx->arcs->size/2 << " arcs\n";
@@ -34,6 +42,7 @@ void command(Program *ctx) {
 
     ctx->recently_charged = true;
     ctx->reset = true;
+    ctx->simulationDone = false;
     std::cout << "Graph reset successfully.\n";
 }
 }

@@ -56,8 +56,7 @@ int encodeArcs(LinkedList<Arc> *__restrict arcs, char *__restrict buf) {
   // 0xf4: separator
   // 0xc3: end of arc
   for (Arc *arc = arcs->head; arc != nullptr; arc = arc->next->next) {
-    written +=
-        sprintf(buf + written, "%d\xf4%d\xc3", arc->next->to->id, arc->to->id);
+    written += sprintf(buf + written, "%d\xf4%d\xc3", arc->next->to->id, arc->to->id);
   }
 
   return written;
@@ -102,7 +101,7 @@ void decodePeople(string filename, LinkedList<Person> *people,
     person_str >> movement_type;
 
     MovementType mType = static_cast<MovementType>(movement_type);
-    if (mType == MovementType::RANDOM || mType == MovementType::ADJACENT) {
+    if (mType == MovementType::DIRECT || mType == MovementType::THROUGH_ALL) {
       people->add(new Person(name, graph->find(from), graph->find(to), mType));
     } else {
       people->add(new Person(name, mType));
