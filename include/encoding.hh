@@ -7,6 +7,8 @@
 /* int encode(LinkedList<Node> *__restrict graph, char *__restrict buffer); */
 int encodeNodes(LinkedList<Node> *__restrict nodes, char *__restrict buffer);
 int encodeArcs(LinkedList<Arc> *__restrict arcs, char *__restrict buffer);
+int encodePeople(LinkedList<Person> *__restrict people, char *__restrict buf);
+void decodePeople(std::string filename, LinkedList<Person> *people, LinkedList<Node> *graph);
 void decodeNodes(std::string filename, LinkedList<Node> *__restrict nodes);
 void decodeArcs(std::string filename, LinkedList<Arc> *__restrict arcs, LinkedList<Node> *__restrict nodes);
 /* int decode(std::string, LinkedList<Node> *, LinkedList<Arc> *); */

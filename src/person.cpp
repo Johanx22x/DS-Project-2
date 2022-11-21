@@ -16,19 +16,21 @@ std::string Person::toString() {
 }
 
 bool Person::addFriend(Person *person) {
-  if (friends == nullptr) friends = new LinkedList<Person>();
+  (void)person;
+  /* if (friends == nullptr) friends = new LinkedList<Person>(); */
 
-  // Check if the new friend is already in the list
-  Person *curr = friends->head;
-  while (curr != nullptr) {
-    if (curr->id == person->id) return false;
-    curr = curr->next;
-  }
+  /* // Check if the new friend is already in the list */
+  /* Person *curr = friends->head; */
+  /* while (curr != nullptr) { */
+  /*   if (curr->id == person->id) return false; */
+  /*   curr = curr->next; */
+  /* } */
 
-  // Add the new friend to the list
-  friends->add(person);
+  /* // Add the new friend to the list */
+  /* friends->add(person); */
 
-  return true;
+  /* return true; */
+  return false;
 }
 
 // Function to store the shortest path in the person queue called 'path'

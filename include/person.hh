@@ -6,6 +6,7 @@
 #include <proxy.hh>
 #include <queue>
 #include <string>
+#include <vector>
 
 enum MovementType { RANDOM, ADJACENT, THROUGH_ALL, DIRECT };
 
@@ -15,7 +16,7 @@ public:
   int id = next_id++;
   std::string name;
   MovementType mode;
-  LinkedList<Person> *friends = new LinkedList<Person>();
+  std::vector<Person*> *friends = new std::vector<Person*>();
   Person *next = nullptr;
 
   int steps = 0;

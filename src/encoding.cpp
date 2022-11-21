@@ -1,4 +1,5 @@
 #include "encoding.hh"
+#include "person.hh"
 #include <cstddef>
 #include <cstdio>
 #include <cstdlib>
@@ -25,7 +26,8 @@ using std::string;
 /*   printf("debug: writing a total of %d nodes\n", graph->size); */
 /*   for (Node *node = graph->head; node != nullptr; node = node->next) { */
 
-/*     for (Proxy<Arc> *arc = node->arcs->head; arc != nullptr; arc = arc->next) { */
+/*     for (Proxy<Arc> *arc = node->arcs->head; arc != nullptr; arc = arc->next)
+ * { */
 /*       written += sprintf(buf + written, "%d\xf4%d\xf4%s\xf4%d\xf4%s\xc3", */
 /*                          arc->link->id, node->id, node->name.c_str(), */
 /*                          arc->link->to->id, arc->link->to->name.c_str()); */
@@ -54,10 +56,58 @@ int encodeArcs(LinkedList<Arc> *__restrict arcs, char *__restrict buf) {
   // 0xf4: separator
   // 0xc3: end of arc
   for (Arc *arc = arcs->head; arc != nullptr; arc = arc->next->next) {
-    written += sprintf(buf + written, "%d\xf4%d\xc3", arc->next->to->id, arc->to->id);
+    written +=
+        sprintf(buf + written, "%d\xf4%d\xc3", arc->next->to->id, arc->to->id);
   }
 
   return written;
+}
+
+int encodePeople(LinkedList<Person> *__restrict people, char *__restrict buf) {
+  int written = 0;
+
+  for (Person *person = people->head; person != nullptr;
+       person = person->next) {
+    if (person->mode == MovementType::DIRECT ||
+        person->mode == MovementType::THROUGH_ALL) {
+      written += sprintf(buf + written, "%s\xf4%d\xf4%d\xf4%d\xc3",
+                         person->name.c_str(), person->from->id, person->to->id,
+                         person->mode);
+    } else {
+      written += sprintf(buf + written, "%s\xf4%d\xf4%d\xf4%d\xc3",
+                         person->name.c_str(), 0, 0, person->mode);
+    }
+  }
+
+  return written;
+}
+
+void decodePeople(string filename, LinkedList<Person> *people,
+                  LinkedList<Node> *graph) {
+  std::ifstream file = std::ifstream(filename);
+  string raw_data((std::istreambuf_iterator<char>(file)),
+                  (std::istreambuf_iterator<char>()));
+  std::istringstream content(raw_data);
+
+  string people_str;
+  while (std::getline(content, people_str, (char)0xc3)) {
+    std::istringstream person_str(people_str);
+    string name;
+    std::getline(person_str, name, (char)0xf4);
+    int from, to, movement_type;
+    person_str >> from;
+    person_str.ignore(1, (char)0xf4);
+    person_str >> to;
+    person_str.ignore(1, (char)0xf4);
+    person_str >> movement_type;
+
+    MovementType mType = static_cast<MovementType>(movement_type);
+    if (mType == MovementType::RANDOM || mType == MovementType::ADJACENT) {
+      people->add(new Person(name, graph->find(from), graph->find(to), mType));
+    } else {
+      people->add(new Person(name, mType));
+    }
+  }
 }
 
 void decodeNodes(string filename, LinkedList<Node> *nodes) {
@@ -72,7 +122,8 @@ void decodeNodes(string filename, LinkedList<Node> *nodes) {
   }
 }
 
-void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes) {
+void decodeArcs(string filename, LinkedList<Arc> *arcs,
+                LinkedList<Node> *nodes) {
   std::ifstream file = std::ifstream(filename);
   string raw_data((std::istreambuf_iterator<char>(file)),
                   (std::istreambuf_iterator<char>()));
@@ -101,7 +152,8 @@ void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes)
   }
 }
 
-/* void decode(string filename, LinkedList<Node> *nodes, LinkedList<Arc> *arcs) { */
+/* void decode(string filename, LinkedList<Node> *nodes, LinkedList<Arc> *arcs)
+ * { */
 /*   std::ifstream file = std::ifstream(filename); */
 /*   string raw_data((std::istreambuf_iterator<char>(file)), */
 /*                   (std::istreambuf_iterator<char>())); */
@@ -120,7 +172,8 @@ void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes)
 
 /*     std::getline(node, nn->name, (char)0xf4); */
 
-/*     if (graph->find(nn->id) == nullptr) { // this means the node already exists */
+/*     if (graph->find(nn->id) == nullptr) { // this means the node already
+ * exists */
 /*       graph->add(nn); */
 /*     } else */
 /*       delete nn; */
@@ -180,7 +233,8 @@ void decodeArcs(string filename, LinkedList<Arc> *arcs, LinkedList<Node> *nodes)
 /*     arcs->add(tarc); */
 /*     from->arcs->add(new Proxy<Arc>(tarc)); */
 
-/*     for (Proxy<Arc> *arc = from->arcs->head; arc != nullptr; arc = arc->next) { */
+/*     for (Proxy<Arc> *arc = from->arcs->head; arc != nullptr; arc = arc->next)
+ * { */
 /*         if (arc->link->to->id == to->id) { */
 /*             arc->link->time = arcTime; */
 /*         } */
