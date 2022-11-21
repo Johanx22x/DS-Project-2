@@ -6,6 +6,10 @@
 extern "C" {
 
 void command(Program *ctx) {
+  if (ctx->simulationDone) {
+      std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+      return;
+  }
   std::cout << "Enter the name of the new node: ";
   std::string name;
   std::getline(std::cin, name);

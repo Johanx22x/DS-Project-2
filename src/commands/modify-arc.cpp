@@ -8,6 +8,10 @@
 extern "C" {
 
 void command(Program *ctx) {
+    if (ctx->simulationDone) {
+        std::cout << "Simulation runned, can't modify the graph, use 'reset' to reset the graph.\n";
+        return;
+    }
   // Check if exist arcs
   if (!ctx->arcs->size) {
     std::cout << "No arcs in the graph to modify!\n";
