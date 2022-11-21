@@ -151,32 +151,47 @@ void command(Program *ctx) {
     bool allFinished = true;
     for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
 
+      // Check if the simulation is finished
+      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
+          allFinished = false;
+          std::cout << "I'm " << tmp->link->name << "\n";
+      }
+                                  
       // Check if the person is walking
       if (tmp->link->currentArc != nullptr) {
+          if (tmp->link->mode == MovementType::ADJACENT || tmp->link->mode == MovementType::RANDOM) continue;
           std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
           std::cout << "Steps left: " << tmp->link->currentArc->time - tmp->link->steps << "\n";
       }
 
-      // Check if the simulation is finished
-      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
-          allFinished = false;
-      }
-
       // Check if the person is in a node
       if (tmp->link->currentArc == nullptr) {
+        std::cout << "I'm in a node\n";
         Arc *next = tmp->link->nextArc();
+
+        if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
+          if (next == nullptr) {
+            std::cout << tmp->link->name << " HAS FINISHED!\n";
+            if (!firstToFinish) firstToFinish = tmp->link;
+            lastToFinish = tmp->link;
+            peopleBackup->remove(tmp);
+            continue;
+          }
+        }
+
+        std::cout << tmp->link->name << " will go to " << next->to->name << "\n";
 
         tmp->link->currentArc = next;
         tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
-                                  
+
         tmp->link->from->people->remove(tmp->link->from->people->find(tmp->link->id));
       } else if (tmp->link->steps >= tmp->link->currentArc->time) {
-
         Proxy<Person> *p = tmp->link->from->people->find(tmp->link->id);
 
         tmp->link->steps = 0;
         tmp->link->prev = tmp->link->from;
         tmp->link->from = tmp->link->currentArc->to;
+        tmp->link->currentArc = nullptr;
 
         tmp->link->from->people->add(p);
         std::cout << tmp->link->name << " is now in " << tmp->link->from->name << "\n";
@@ -192,17 +207,6 @@ void command(Program *ctx) {
             printf("%s is now friends with %s\n", tmp->link->name.c_str(),
                    _friend->link->name.c_str());
           }
-        }
-
-        if (tmp->link->from == tmp->link->to) {
-          if (!firstToFinish) firstToFinish = tmp->link;
-          lastToFinish = tmp->link;
-
-          tmp->link->currentArc = nullptr;
-          tmp->link->to = nullptr;
-          peopleBackup->remove(tmp);
-        } else {
-          tmp->link->currentArc = nullptr;
         }
       } else {
         tmp->link->steps++;
