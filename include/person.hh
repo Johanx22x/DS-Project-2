@@ -15,7 +15,7 @@ public:
   int id = next_id++;
   std::string name;
   MovementType mode;
-  LinkedList<Proxy<Person>> *friends = nullptr;
+  LinkedList<Person> *friends = new LinkedList<Person>();
   Person *next = nullptr;
 
   int steps = 0;
@@ -23,6 +23,9 @@ public:
   class Node *prev = nullptr;
   class Node *from = nullptr;
   class Node *to = nullptr;
+
+  bool inSimulation = false;
+  bool inNode = false;
 
   // Shortest path variables
   int shortestTime = 0;

@@ -104,115 +104,128 @@ extern "C" {
 void __command(Program *ctx) {
   // Save the actual GRAPH
   saveActualGraph(ctx);
-  LinkedList<Proxy<Person>> *peopleBackup = new LinkedList<Proxy<Person>>();
-  peopleBackup = copyPeople(ctx->people);
+  /* LinkedList<Proxy<Person>> *peopleBackup = new LinkedList<Proxy<Person>>(); */
+  /* peopleBackup = copyPeople(ctx->people); */
 
-  LinkedList<Person> *peopleBackupCopy = copy_people(ctx->people);
+  /* LinkedList<Person> *peopleBackupCopy = copy_people(ctx->people); */
 
   size_t totalMinutes = 0;
-
   Person *firstToFinish = nullptr;
   Person *lastToFinish = nullptr;
 
   bool valid = false;
-  for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr;
-       tmp = tmp->next) {
-    if (tmp->link->mode == MovementType::THROUGH_ALL) {
-      peopleBackup->remove(tmp); // FIX: Temporarily remove people who are going through all nodes
-      /* shortestPathThroughAll(tmp->link, ctx->nodes); */
-    }
-    if (!tmp->link->from) {
-      continue;
-    }
-    tmp->link->shortestPath(tmp->link->from, tmp->link->to);
-    valid = true;
-  }
-  if (!valid) {
-    std::cout << "Cannot simulate, create a person with a movement type "
-                 "'direct' or 'through all' first!\n";
-    return;
-  }
-
   // Remove the first node in the person path (for Direct and Through all),
   // because it is the starting point We don't need to simulate the person going
   // to the starting point
-  for (Proxy<Person> *tmp = peopleBackup->head; tmp; tmp = tmp->next) {
-    if (!tmp->link->from) {
-      tmp->link->from = ctx->nodes->head;
-      /* tmp->link->from->people->add(tmp); */
-      continue;
-    }
-    tmp->link->path.pop();
+  for (Person *person = ctx->people->head; person; person = person->next) {
+      person->inSimulation = true;
+      /* person->inNode = true; */
+      person->currentArc = nullptr;
+      if (person->mode == MovementType::THROUGH_ALL) {
+          person->inSimulation = false; // NOTE: We don't simulate this person
+      }
+      if (person->from == nullptr) {
+          person->from = ctx->nodes->head;
+          continue;
+      }
+      person->shortestPath(person->from, person->to);
+      person->path.pop();
+      valid = true;
+  }
+  if (!valid) {
+    std::cout << "Cannot simulate, create a person with a movement type 'direct' or 'through all' first!\n";
+    return;
   }
 
-  std::cout << "All ready to simulate!\n";
+    // make the friends
+    /* for (Person *person = ctx->people->head; person != nullptr; person = person->next) { */
+    /*     for (Person *_friend = ctx->people->head; _friend != nullptr; _friend = _friend->next) { */
+    /*         if (person->id == _friend->id) { */
+    /*             continue; */
+    /*         } */
+    /*         if (person->from->id == _friend->from->id) { */
+    /*             if (person->inNode && _friend->inNode) { */
+    /*                 if (person->addFriend(_friend)) { */
+    /*                     std::cout << person->name << " and " << _friend->name << " are friends now!\n"; */
+    /*                 } */
+    /*             } */
+    /*         } */
+    /*     } */
+    /* } */
 
 
   while (true) {
-    // primero simulamos lo que hace cada persona
     bool allFinished = true;
     std::cout << "\u001b[34mTotal minutes: " << totalMinutes << "\u001b[0m\n";
-    for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
 
-      // Check if the simulation is finished
-      if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
-          allFinished = false;
+    for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+      // If the person is not in simulation, skip it
+      if (tmp->inSimulation == false) {
+        continue;
       }
 
-      // Check if the person is walking
-      if (tmp->link->currentArc != nullptr) {
-          if (tmp->link->mode == MovementType::DIRECT|| tmp->link->mode == MovementType::THROUGH_ALL) {
-              std::cout << tmp->link->name << " is going to " << tmp->link->to->name << "\n";
+      // Check if exist a person with the movement type 'through all' or 'direct'
+      if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
+          if (tmp->inSimulation) {
+              allFinished = false;
           }
       }
 
       // Check if the person is in a node
-      if (tmp->link->currentArc == nullptr) {
-        Arc *next = tmp->link->nextArc();
+      if (tmp->currentArc == nullptr) {
+        Arc *next = tmp->nextArc();
 
-        if (tmp->link->mode == MovementType::DIRECT || tmp->link->mode == MovementType::THROUGH_ALL) {
+        if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
           if (next == nullptr) {
-            std::cout << tmp->link->name << " Has finished!\n";
-            if (!firstToFinish) firstToFinish = tmp->link;
-            lastToFinish = tmp->link;
-            peopleBackup->remove(tmp);
+            std::cout << tmp->name << " Has finished!\n";
+            if (!firstToFinish) firstToFinish = tmp;
+            lastToFinish = tmp;
+            tmp->inSimulation = false;
             continue;
           }
         }
 
-        tmp->link->currentArc = next;
-        tmp->link->to = next->to; // TEST: Esto se hace debido a que el parametro `to` de la persona inicia siendo el punto final
-        tmp->link->from->people->remove(tmp);
-        tmp->link->steps++;
-      } 
+        tmp->currentArc = next;
+        tmp->to = next->to;
+        if (tmp->inNode) {
+          std::cout << tmp->name << " leaves " << tmp->from->name << "\n";
+          tmp->from->people.pop();
+          tmp->inNode = false;
+        }
+        tmp->steps++;
+      } else if (tmp->steps >= tmp->currentArc->time) {
+          tmp->steps = 0;
+          tmp->from = tmp->to;
+          tmp->currentArc = nullptr;
+          tmp->inNode = true;
 
-      if (tmp->link->steps >= tmp->link->currentArc->time) {
-        /* Proxy<Person> *p = tmp->link->from->people->find(tmp->link->id); */
-
-        tmp->link->steps = 0;
-        tmp->link->prev = tmp->link->from;
-        tmp->link->from = tmp->link->currentArc->to;
-        tmp->link->currentArc = nullptr;
-
-        tmp->link->from->people->add(tmp);
-        std::cout << tmp->link->name << " is now in " << tmp->link->from->name << "\nThat node has " << tmp->link->from->people->size << "people\n";
+          std::cout << tmp->name << " is in " << tmp->from->name << "\n";
       } else {
-        tmp->link->steps++;
+        tmp->steps++;
+      }
+
+      // Check if the person is walking through an arc
+      if (tmp->currentArc != nullptr) {
+          if (tmp->mode == MovementType::DIRECT || tmp->mode == MovementType::THROUGH_ALL) {
+              std::cout << tmp->name << " is going to " << tmp->to->name << "\n";
+          }
       }
     }
 
     // make the friends
-    for (Proxy<Person> *tmp = peopleBackup->head; tmp != nullptr; tmp = tmp->next) {
-        puts("adding friends");
-        printf("Prev node has %d people\n", tmp->link->from->people->size);
-        std::cout << tmp->link->from->people->head << "\n";
-        for (Proxy<Person> *_friends = tmp->link->from->people->head; _friends != nullptr; _friends = _friends->next) {
-            puts("adding for the first nigger dog");
-            if (_friends->link->id == tmp->link->id) continue;
-            puts("the first if was not the culprit");
-            if (tmp->link->friends->find(_friends->link->id) == nullptr) {
-                tmp->link->friends->add(_friends);
-                std::cout << "\u001b[31m" << tmp->link->name << " is now friends with " << _friends->link->name << "\u001b[0m\n";
+    for (Person *person = ctx->people->head; person != nullptr; person = person->next) {
+        for (Person *_friend = ctx->people->head; _friend != nullptr; _friend = _friend->next) {
+            if (person->id == _friend->id) {
+                continue;
+            }
+            if (person->from->id == _friend->from->id) {
+                if (person->inNode && _friend->inNode) {
+                    if (person->addFriend(_friend)) {
+                        std::cout << person->name << " and " << _friend->name << " are friends now!\n";
+                    } else {
+                        std::cout << person->name << " and " << _friend->name << " are already friends!\n";
+                    }
+                }
             }
             puts("the second if was not the culprit");
         }
@@ -229,16 +242,15 @@ void __command(Program *ctx) {
   printf("The first person to finish was: %s\n", firstToFinish->name.c_str());
   printf("The last person to finish was: %s\n", lastToFinish->name.c_str());
 
-  /* Person *mostFriends = nullptr; */
-  /* for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) { */
-  /*   if (mostFriends->friends->size < tmp->friends->size) */
-  /*     mostFriends = tmp; */
-  /* } */
+  Person *mostFriends = ctx->people->head;
+  for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
+    if (tmp->friends->size >= mostFriends->friends->size) {
+      mostFriends = tmp;
+    }
+  }
+  printf("%s has the most friends, they have %d friends!\n", mostFriends->name.c_str(), mostFriends->friends->size);
 
-  /* printf("%s has the most friends, they have %d friends!\n", */
-  /*        mostFriends->name.c_str(), mostFriends->friends->size); */
-
-  ctx->people = peopleBackupCopy;
+  /* ctx->people = peopleBackupCopy; */
 }
 
 void command(Program *ctx) {

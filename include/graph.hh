@@ -15,7 +15,7 @@ public:
   int id = next_id++;
   std::string name;
   Node *next = nullptr;
-  LinkedList<Proxy<Person>> *people = new LinkedList<Proxy<Person>>();
+  std::queue<Person *> people = std::queue<Person *>();
   LinkedList<Proxy<class Arc>> *arcs = new LinkedList<Proxy<class Arc>>();
 
   Node(std::string name) : name(name) {}
