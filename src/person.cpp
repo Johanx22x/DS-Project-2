@@ -16,19 +16,17 @@ std::string Person::toString() {
 }
 
 bool Person::addFriend(Person *person) {
-  if (friends == nullptr)
-    friends = new LinkedList<Proxy<Person>>();
+  if (friends == nullptr) friends = new LinkedList<Person>();
+
   // Check if the new friend is already in the list
-  Proxy<Person> *curr = friends->head;
+  Person *curr = friends->head;
   while (curr != nullptr) {
-    if (curr->link == person) {
-      return false;
-    }
+    if (curr->id == person->id) return false;
     curr = curr->next;
   }
 
   // Add the new friend to the list
-  friends->add(new Proxy<Person>(person));
+  friends->add(person);
 
   return true;
 }
