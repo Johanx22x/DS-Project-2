@@ -39,8 +39,9 @@ bool Person::addFriend(Person *person) {
 // @param person: The person to store the path
 // @param from: The node where the person is located
 // @param to: The node where the person wants to go
-void Person::shortestPath(Node *from, Node *to, int time,
-                          std::queue<Node *> alt_path, Node *last_node) {
+// @param alt_path: The alternative path to the person 
+// @param last_node: The last node of the alternative path
+void Person::shortestPath(Node *from, Node *to, int time, std::queue<Node *> alt_path, Node *last_node) {
   if (last_node != nullptr) {
     alt_path.push(last_node);
   }
