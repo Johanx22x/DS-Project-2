@@ -2,11 +2,13 @@
 #include "proxy.hh"
 #include <cstdio>
 #include <encoding.hh>
+#include <algorithm>
 #include <person.hh>
 #include <program.hh>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <vector>
 
 void saveActualGraph(Program *ctx) {
   // Encode the actual graph
@@ -137,21 +139,31 @@ void command(Program *ctx) {
     return;
   }
 
-    // make the friends
-    /* for (Person *person = ctx->people->head; person != nullptr; person = person->next) { */
-    /*     for (Person *_friend = ctx->people->head; _friend != nullptr; _friend = _friend->next) { */
-    /*         if (person->id == _friend->id) { */
-    /*             continue; */
-    /*         } */
-    /*         if (person->from->id == _friend->from->id) { */
-    /*             if (person->inNode && _friend->inNode) { */
-    /*                 if (person->addFriend(_friend)) { */
-    /*                     std::cout << person->name << " and " << _friend->name << " are friends now!\n"; */
-    /*                 } */
-    /*             } */
-    /*         } */
-    /*     } */
-    /* } */
+
+    for (Person *person = ctx->people->head; person != nullptr; person = person->next) {
+        for (Person *_friend = ctx->people->head; _friend != nullptr; _friend = _friend->next) {
+            if (person->id == _friend->id) {
+                continue;
+            }
+            if (person->from->id == _friend->from->id) {
+                /* if (person->inNode && _friend->inNode) { */
+
+                  std::vector<Person*>::iterator it = find(person->friends->begin(), person->friends->end(), _friend);
+                  if (it == person->friends->end()) {
+                      person->friends->push_back(_friend);
+                      printf("%s is now friends with %s!\n", person->name.c_str(), _friend->name.c_str());
+                  }
+
+/*                 } */
+            }
+        }
+    }
+
+    for (Person *person = ctx->people->head; person != nullptr; person = person->next){
+      if (person->mode == MovementType::ADJACENT || person->mode == MovementType::RANDOM) {
+        person->hasPath = true;
+      }
+    }
 
   while (true) {
     bool allFinished = true;
@@ -180,7 +192,15 @@ void command(Program *ctx) {
             if (!firstToFinish) firstToFinish = tmp;
             lastToFinish = tmp;
             tmp->inSimulation = false;
+            tmp->inNode = false;
             continue;
+          }
+        } else {
+          if (next == nullptr) {
+            puts("nigga nae nae nigga nigga nae nae nigga nigga nae nae");
+            tmp->hasPath = false;
+            tmp->inNode = false;
+            tmp->inSimulation = false;
           }
         }
 
@@ -219,11 +239,13 @@ void command(Program *ctx) {
             }
             if (person->from->id == _friend->from->id) {
                 if (person->inNode && _friend->inNode) {
-                    if (person->addFriend(_friend)) {
-                        std::cout << person->name << " and " << _friend->name << " are friends now!\n";
-                    } else {
-                        std::cout << person->name << " and " << _friend->name << " are already friends!\n";
-                    }
+
+                  std::vector<Person*>::iterator it = find(person->friends->begin(), person->friends->end(), _friend);
+                  if (it == person->friends->end()) {
+                      person->friends->push_back(_friend);
+                      printf("%s is now friends with %s!\n", person->name.c_str(), _friend->name.c_str());
+                  }
+
                 }
             }
         }
@@ -242,12 +264,13 @@ void command(Program *ctx) {
 
   Person *mostFriends = ctx->people->head;
   for (Person *tmp = ctx->people->head; tmp != nullptr; tmp = tmp->next) {
-    if (tmp->friends->size >= mostFriends->friends->size) {
+    if (tmp->friends->size() >= mostFriends->friends->size()) {
       mostFriends = tmp;
     }
   }
-  printf("%s has the most friends, they have %d friends!\n", mostFriends->name.c_str(), mostFriends->friends->size);
+  printf("%s has the most friends, they have %zu friends!\n", mostFriends->name.c_str(), mostFriends->friends->size());
 
+  ctx->simulationDone = true;
   /* ctx->people = peopleBackupCopy; */
 }
 }

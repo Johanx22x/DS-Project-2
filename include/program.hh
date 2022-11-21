@@ -11,6 +11,7 @@ public:
   LinkedList<Arc> *arcs = new LinkedList<Arc>();
   LinkedList<Person> *people = new LinkedList<Person>();
   bool recently_charged = false;
+  bool simulationDone = false;
   std::map<std::string, class Command *> *commands =
       new std::map<std::string, class Command *>();
 
