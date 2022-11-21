@@ -154,6 +154,11 @@ disposibles para utilizar en el programa, estas figuras fueron generadas por el 
 por lo cual se puede obtener cualquier imagen de un grafo que se encuentre en el programa, solamente 
 debe de utilizarse el comando draw-graph para ello.
 
+Como último punto, mencionar que una vez que el programa realiza la simulación, se debe de utilizar el comando 
+reset, esto debido a que se debe recuperar el estado previo a la ejecución de la caminata, esta opción existe 
+únicamente con el proposito de brindar un momento donde el usuario pueda acceder a los reportes 5, 6 y 7 de manera 
+continúa, posterior a ello deberá hacer un reset o el programa le impedirá realizar cualquier otra acción.
+
 ![[Grafo por defecto 1](https://weibeld.net/assets/icons/markdown.png)](images/grafo1.png){#fig:one}
 
 ![[Grafo por defecto 2](https://weibeld.net/assets/icons/markdown.png)](images/grafo2.png){#fig:two}

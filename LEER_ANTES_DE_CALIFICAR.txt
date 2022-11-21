@@ -1,0 +1,13 @@
+The external documentation of the project can be found in "./Documentation/",
+there is a markdown source file where the documentation was written,
+and the output PDF is at "./Documentation/build/report.pdf".
+
+The source code of the project can be found in the "src/" folder, 
+there are the main file, and all the rest of the modules.
+The header files are in the "include/" folder.
+
+You need to have installed make, mold linker and clang compiler to 
+build these source files into a binary file.
+
+Important note: This project was developed on Linux, probably will have errors
+compiling or running on windows.
