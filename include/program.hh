@@ -19,6 +19,9 @@ public:
   Program();
   ~Program();
 
+  /**
+   * Starts executing the program
+   */
   void run();
 };
 
